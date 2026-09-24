@@ -1,0 +1,33 @@
+{
+  "name": "Dr. Colbert Pierre - E-Card",
+  "short_name": "Dr. Colbert",
+  "description": "Digital business card for Dr. Colbert Pierre - Artist | Poet | Music",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#66c8f2",
+  "theme_color": "#0d8bbd",
+  "scope": "./",
+  "lang": "en",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-198x198.png",
+      "sizes": "198x198",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
