@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <!-- This meta tag is crucial to stop mobile phones from zooming out and making things tiny -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#5BC0DE">
     <title>Dr. Colbert Pierre</title>
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* CSS Variables for colors */
         :root {
             --bg-blue: #5BC0DE;
             --dark-btn: #1A2B3C;
@@ -23,99 +23,86 @@
             margin: 0;
             padding: 0;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
+            background-color: var(--bg-blue);
+            color: var(--text-dark);
+            min-height: 100%;
+            width: 100%;
         }
 
         body {
-            background-color: var(--bg-blue);
-            color: var(--text-dark);
-            /* 100dvh makes it stretch perfectly tall on mobile screens */
-            height: 100vh;
-            height: 100dvh; 
-            overflow: hidden; /* Prevents scrolling, keeps it app-like */
-        }
-
-        /* Tall, full-screen container */
-        .container {
-            width: 100%;
-            height: 100%;
             display: flex;
             flex-direction: column;
-            justify-content: space-between; /* Spreads content top to bottom */
-            padding: 40px 20px; /* Big padding for a spacious feel */
+            padding: 30px 20px;
+        }
+
+        /* Container holds everything with a nice gap, no forced stretching */
+        .container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 20px; 
             text-align: center;
+            margin: auto 0; 
         }
 
         /* Header */
-        .header {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
         h1 {
-            font-size: 32px; /* Fixed big size */
+            font-size: 32px; 
             font-weight: 800;
             line-height: 1.2;
         }
 
         .tagline {
+            display: inline-block;
             background-color: var(--dark-btn);
             color: var(--text-light);
             padding: 8px 20px;
-            border-radius: 20px;
-            font-size: 14px; /* Fixed size */
+            border-radius: 30px;
+            font-size: 14px;
             font-weight: 700;
             letter-spacing: 1px;
             text-transform: uppercase;
+            margin-top: 10px;
+            align-self: center;
         }
 
-        /* Button Groupings */
-        .button-group {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            width: 100%;
-            /* This makes the buttons stretch to fill the middle space */
-            flex-grow: 1; 
-            justify-content: center;
-        }
-
+        /* Button Rows */
         .btn-row {
             display: flex;
             gap: 15px;
             width: 100%;
-            /* Stretch rows equally */
-            flex: 1; 
         }
 
+        /* Fixed button size, rounded pill shape, side-by-side icon and text */
         .btn {
             flex: 1;
-            border-radius: 16px;
+            padding: 18px 10px; 
+            border-radius: 50px; /* Pill shape */
             border: none;
-            font-size: 18px; /* Big readable text */
+            font-size: 16px; 
             font-weight: 700;
             cursor: pointer;
             display: flex;
-            flex-direction: column; /* Stacks icon over text for bigger look */
+            flex-direction: row; /* Side by side */
             justify-content: center;
             align-items: center;
             gap: 10px;
             text-decoration: none;
-            transition: all 0.2s ease-in-out; 
+            transition: transform 0.1s;
             box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-            padding: 10px;
+            touch-action: manipulation; /* Ensures instant tap response on mobile */
         }
 
         .btn i {
-            font-size: 24px; /* Big icons */
+            font-size: 20px; 
         }
 
         .btn:active {
-            transform: scale(0.97);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            opacity: 0.9;
+            transform: scale(0.96);
         }
 
         .btn-dark {
@@ -128,20 +115,23 @@
             color: var(--text-dark);
         }
 
-        /* Info Box for Share */
+        /* Instagram Button */
+        .btn-full {
+            width: 100%;
+        }
+
+        /* Info Box */
         .info-box {
             background-color: var(--card-bg);
             border-radius: 16px;
-            padding: 20px;
+            padding: 18px 20px;
             display: flex;
             align-items: center;
             text-align: left;
             gap: 15px;
             width: 100%;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-            transition: transform 0.2s;
-            flex: 1; /* Stretches to match height */
-            max-height: 100px; /* But prevents it from getting too tall */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            touch-action: manipulation;
         }
 
         .info-box:active {
@@ -177,20 +167,16 @@
         }
 
         .info-value {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 800;
             color: var(--text-dark);
         }
 
         .copy-icon {
-            color: #666;
+            color: #444;
             font-size: 22px;
             cursor: pointer;
             padding: 5px;
-        }
-
-        .copy-icon:active {
-            color: var(--text-dark);
         }
 
     </style>
@@ -199,51 +185,46 @@
 
     <div class="container">
         <!-- Header -->
-        <div class="header">
+        <div>
             <h1>Dr. Colbert Pierre</h1>
             <div class="tagline">Artiste | Poet | Music</div>
         </div>
 
-        <!-- Middle Button Area (Stretches to fill space) -->
-        <div class="button-group">
-            <!-- Call & SMS Buttons -->
-            <div class="btn-row">
-                <a href="tel:5308404389" class="btn btn-dark">
-                    <i class="fas fa-phone-alt"></i> Call Direct
-                </a>
-                <a href="sms:5308404389" class="btn btn-light">
-                    <i class="fas fa-comment-alt"></i> Send SMS
-                </a>
-            </div>
+        <!-- Call & SMS Buttons -->
+        <div class="btn-row">
+            <a href="tel:5308404389" class="btn btn-dark">
+                <i class="fas fa-phone-alt"></i> Call Direct
+            </a>
+            <a href="sms:5308404389" class="btn btn-light">
+                <i class="fas fa-comment-alt"></i> Send SMS
+            </a>
+        </div>
 
-            <!-- Instagram Button -->
-            <div class="btn-row">
-                <a href="https://instagram.com" target="_blank" class="btn btn-dark">
-                    <i class="fab fa-instagram"></i> Instagram
-                </a>
-            </div>
+        <!-- Instagram Button -->
+        <a href="https://instagram.com" target="_blank" class="btn btn-dark btn-full">
+            <i class="fab fa-instagram"></i> Instagram
+        </a>
 
-            <!-- Share Info Box -->
-            <div class="info-box">
-                <div class="icon-circle">
-                    <i class="fas fa-share-alt"></i>
-                </div>
-                <div class="info-content">
-                    <span class="info-label">Share This Card</span>
-                    <span class="info-value">Copy link to paste anywhere</span>
-                </div>
-                <i class="far fa-copy copy-icon" onclick="copyToClipboard(window.location.href)"></i>
+        <!-- Share Info Box -->
+        <div class="info-box">
+            <div class="icon-circle">
+                <i class="fas fa-share-alt"></i>
             </div>
+            <div class="info-content">
+                <span class="info-label">Share This Card</span>
+                <span class="info-value">Copy link to paste anywhere</span>
+            </div>
+            <i class="far fa-copy copy-icon" onclick="copyToClipboard(window.location.href)"></i>
+        </div>
 
-            <!-- Save Contact & QR Code -->
-            <div class="btn-row">
-                <button onclick="downloadVCard()" class="btn btn-dark">
-                    <i class="fas fa-user-plus"></i> Save Contact
-                </button>
-                <button onclick="alert('QR Code feature would generate a QR code for this page link.')" class="btn btn-light">
-                    <i class="fas fa-qrcode"></i> QR Code
-                </button>
-            </div>
+        <!-- Save Contact & QR Code -->
+        <div class="btn-row">
+            <button onclick="downloadVCard()" class="btn btn-dark">
+                <i class="fas fa-user-plus"></i> Save Contact
+            </button>
+            <button onclick="alert('QR Code feature would generate a QR code for this page link.')" class="btn btn-light">
+                <i class="fas fa-qrcode"></i> QR Code
+            </button>
         </div>
     </div>
 
