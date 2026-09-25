@@ -2,10 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="theme-color" content="#5BC0DE">
+    <meta name="description" content="Digital business card for Dr. Colbert Pierre - Artiste, Poet, Musician">
     <title>Dr. Colbert Pierre</title>
+
+    <!-- PWA -->
     <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon-180.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Colbert Pierre">
+    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- QR Code Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -25,7 +34,6 @@
             padding: 0;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             -webkit-tap-highlight-color: transparent;
-            /* STOP ANDROID FROM AUTO-ZOOMING TEXT */
             -webkit-text-size-adjust: 100%;
             -moz-text-size-adjust: 100%;
             text-size-adjust: 100%;
@@ -42,11 +50,10 @@
         body {
             display: flex;
             justify-content: center;
-            align-items: flex-start; /* Prevents stretching */
+            align-items: flex-start;
             padding: 20px 15px;
         }
 
-        /* The Main Container */
         .container {
             width: 100%;
             max-width: 400px;
@@ -57,7 +64,10 @@
             align-items: stretch;
         }
 
-        /* Header styles */
+        /* Only one of #frontView / #backView is shown at a time - a plain
+           swap, not a 3D flip, so it behaves the same on every browser. */
+        #backView { display: none; }
+
         h1 {
             font-size: 28px;
             font-weight: 800;
@@ -79,7 +89,7 @@
             align-self: center;
         }
 
-        /* Buttons - LOCKED SIZE, NO STRETCHING */
+        /* Buttons - fixed size, never stretched by a flex parent */
         .btn {
             display: flex;
             align-items: center;
@@ -87,7 +97,6 @@
             gap: 10px;
             width: 100%;
             max-width: 100%;
-            /* Forces the button to be exactly this tall */
             min-height: 56px;
             height: 56px;
             padding: 0 16px;
@@ -98,11 +107,9 @@
             cursor: pointer;
             box-shadow: 0 4px 6px rgba(0,0,0,0.15);
             text-decoration: none;
-            /* CRITICAL: Stops Android from stretching */
-            flex-grow: 0; 
+            flex-grow: 0;
             flex-shrink: 0;
             flex-basis: auto;
-            /* Stop Android text zoom */
             -webkit-text-size-adjust: none;
         }
 
@@ -124,7 +131,6 @@
             color: var(--text-dark);
         }
 
-        /* Info Box */
         .info-box {
             display: flex;
             align-items: center;
@@ -134,7 +140,7 @@
             padding: 16px;
             text-align: left;
             width: 100%;
-            flex-grow: 0; 
+            flex-grow: 0;
             flex-shrink: 0;
         }
 
@@ -179,11 +185,10 @@
             padding: 5px;
         }
 
-        /* QR Code Section at the Footer */
         .qr-section {
-            margin-top: 20px;
+            margin-top: 6px;
             background-color: white;
-            padding: 20px;
+            padding: 24px;
             border-radius: 16px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
             display: flex;
@@ -212,118 +217,146 @@
             align-items: center;
             margin-bottom: 10px;
         }
-
     </style>
 </head>
 <body>
 
     <div class="container">
-        <!-- Header -->
-        <div>
-            <h1>Dr. Colbert Pierre</h1>
-            <div class="tagline">Artiste | Poet | Music</div>
-        </div>
 
-        <!-- 1. Call Direct (Added +1 country code) -->
-        <a href="tel:+15308404389" class="btn btn-dark">
-            <i class="fas fa-phone-alt"></i> Call Direct
-        </a>
-
-        <!-- 2. Send SMS (Added +1 country code) -->
-        <a href="sms:+15308404389" class="btn btn-light">
-            <i class="fas fa-comment-alt"></i> Send SMS
-        </a>
-
-        <!-- 3. Instagram -->
-        <a href="https://instagram.com" target="_blank" class="btn btn-dark">
-            <i class="fab fa-instagram"></i> Instagram
-        </a>
-
-        <!-- 4. Share Info Box -->
-        <div class="info-box">
-            <div class="icon-circle">
-                <i class="fas fa-share-alt"></i>
+        <!-- FRONT VIEW -->
+        <div id="frontView">
+            <div>
+                <h1>Dr. Colbert Pierre</h1>
+                <div class="tagline">Artiste | Poet | Music</div>
             </div>
-            <div class="info-text">
-                <span class="info-label">Share This Card</span>
-                <span class="info-value">Copy link to paste anywhere</span>
+
+            <a href="tel:+15308404389" class="btn btn-dark">
+                <i class="fas fa-phone-alt"></i> Call Direct
+            </a>
+
+            <a href="sms:+15308404389" class="btn btn-light">
+                <i class="fas fa-comment-alt"></i> Send SMS
+            </a>
+
+            <a href="https://www.instagram.com/stra.t.o/" target="_blank" class="btn btn-dark">
+                <i class="fab fa-instagram"></i> Instagram
+            </a>
+
+            <div class="info-box">
+                <div class="icon-circle">
+                    <i class="fas fa-share-alt"></i>
+                </div>
+                <div class="info-text">
+                    <span class="info-label">Share This Card</span>
+                    <span class="info-value">Copy link to paste anywhere</span>
+                </div>
+                <i class="far fa-copy copy-icon" onclick="copyToClipboard(window.location.href)"></i>
             </div>
-            <i class="far fa-copy copy-icon" onclick="copyToClipboard(window.location.href)"></i>
+
+            <button onclick="downloadVCard()" class="btn btn-dark">
+                <i class="fas fa-user-plus"></i> Save Contact
+            </button>
+
+            <button onclick="showBack()" class="btn btn-light">
+                <i class="fas fa-qrcode"></i> Show QR Code
+            </button>
         </div>
 
-        <!-- 5. Save Contact -->
-        <button onclick="downloadVCard()" class="btn btn-dark">
-            <i class="fas fa-user-plus"></i> Save Contact
-        </button>
+        <!-- BACK VIEW -->
+        <div id="backView">
+            <div class="qr-section">
+                <div class="qr-title">Scan to Connect</div>
+                <div class="qr-subtitle">Point your camera here</div>
+                <div id="qrcode"></div>
+            </div>
 
-        <!-- 6. Show QR Code Button -->
-        <button onclick="scrollToQR()" class="btn btn-light">
-            <i class="fas fa-qrcode"></i> Show QR Code
-        </button>
-
-        <!-- 7. QR Code Section (Footer) -->
-        <div class="qr-section" id="qrFooter">
-            <div class="qr-title">Scan to Connect</div>
-            <div class="qr-subtitle">Point your camera here</div>
-            <div id="qrcode"></div>
+            <button onclick="showFront()" class="btn btn-dark" style="margin-top:12px;">
+                <i class="fas fa-arrow-left"></i> Back to Card
+            </button>
         </div>
+
     </div>
 
     <script>
-        // --- 1. Service Worker Registration ---
+        // --- Service Worker Registration ---
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('serviceworker.js')
-                    .then(registration => { console.log('ServiceWorker registered'); })
-                    .catch(err => { console.log('ServiceWorker registration failed: ', err); });
+                navigator.serviceWorker.register('sw.js').catch(() => {});
             });
         }
 
-        // --- 2. Generate the QR Code ---
-        window.addEventListener('load', () => {
+        // --- Generate the QR Code once, up front ---
+        let qrGenerated = false;
+        function generateQR() {
+            if (qrGenerated) return;
             new QRCode(document.getElementById("qrcode"), {
-                text: "https://colbertlartiste.taniadomingue.multisiteadmin.com/a/preview", 
+                text: "https://colbertlartiste.taniadomingue.multisiteadmin.com/a/preview",
                 width: 180,
                 height: 180,
-                colorDark : "#1A2B3C",
-                colorLight : "#ffffff",
-                correctLevel : QRCode.CorrectLevel.H
+                colorDark: "#1A2B3C",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
             });
-        });
+            qrGenerated = true;
+        }
+        window.addEventListener('load', generateQR);
 
-        // --- 3. Scroll to QR Code Function ---
-        function scrollToQR() {
-            const qrSection = document.getElementById('qrFooter');
-            qrSection.scrollIntoView({ behavior: 'smooth' });
+        // --- Flip between front and back ---
+        function showBack() {
+            document.getElementById('frontView').style.display = 'none';
+            document.getElementById('backView').style.display = 'flex';
+            document.getElementById('backView').style.flexDirection = 'column';
+        }
+        function showFront() {
+            document.getElementById('backView').style.display = 'none';
+            document.getElementById('frontView').style.display = 'block';
         }
 
-        // --- 4. Copy to Clipboard Function ---
+        // --- Copy to Clipboard ---
         function copyToClipboard(text) {
-            navigator.clipboard.writeText(text).then(() => {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    alert('Link copied to clipboard!');
+                }).catch(() => legacyCopy(text));
+            } else {
+                legacyCopy(text);
+            }
+        }
+        function legacyCopy(text) {
+            const tempInput = document.createElement('input');
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            try {
+                document.execCommand('copy');
                 alert('Link copied to clipboard!');
-            }).catch(err => {
-                console.error('Failed to copy: ', err);
-            });
+            } catch (err) {
+                alert('Could not copy link.');
+            }
+            document.body.removeChild(tempInput);
         }
 
-        // --- 5. Save Contact (vCard) Function ---
+        // --- Save Contact (vCard) ---
         function downloadVCard() {
             const name = "Dr. Colbert Pierre";
-            // Using +1 country code so Android & iPhone recognize it as a full US number
             const phone = "+15308404389";
             const email = "colpierre23@yahoo.fr";
 
             const vcardData = `BEGIN:VCARD
 VERSION:3.0
-N:${name};;;;
+N:Pierre;Colbert;;Dr.;
 FN:${name}
+ORG:Artiste | Poet | Music
+TITLE:Artiste | Poet | Music
 TEL;TYPE=CELL:${phone}
 EMAIL:${email}
+URL:https://colbertlartiste.taniadomingue.multisiteadmin.com/a/preview
+URL:https://www.instagram.com/stra.t.o/
 END:VCARD`;
 
             const blob = new Blob([vcardData], { type: 'text/vcard;charset=utf-8' });
             const url = URL.createObjectURL(blob);
-            
+
             const link = document.createElement('a');
             link.href = url;
             link.download = 'Dr_Colbert_Pierre.vcf';
