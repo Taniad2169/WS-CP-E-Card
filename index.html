@@ -2,371 +2,298 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Dr. Colbert Pierre - E-Card</title>
-    <meta name="theme-color" content="#68c6e8">
-    <meta name="description" content="Digital business card for Dr. Colbert Pierre - Artiste, Poet, Musician">
-
-    <!-- PWA -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#5BC0DE">
+    <title>Dr. Colbert Pierre</title>
     <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="icon-180.png">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Colbert Pierre">
-    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
-
-    <!-- Import Tailwind CSS for styling -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Import Google Fonts for elegant typography -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-    <!-- Import FontAwesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
     <style>
-        html, body {
-            height: 100%;
-            width: 100%;
+        /* CSS Variables for colors */
+        :root {
+            --bg-blue: #5BC0DE;
+            --dark-btn: #1A2B3C;
+            --light-btn: #FFFFFF;
+            --text-dark: #1A2B3C;
+            --text-light: #FFFFFF;
+            --card-bg: #8ED2E6;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #68c6e8;
-            margin: 0;
-            padding: 0;
+            background-color: var(--bg-blue);
+            color: var(--text-dark);
+            /* 100dvh makes it stretch perfectly tall on mobile screens */
+            height: 100vh;
+            height: 100dvh; 
+            overflow: hidden; /* Prevents scrolling, keeps it app-like */
         }
 
-        .title-font {
-            font-family: 'Playfair Display', serif;
-        }
-
-        /* 3D Flip Card Styles - strictly full-screen mobile, no floating card / background */
-        .card-container {
-            perspective: 1000px;
-            width: 100vw;
-            min-height: 100vh;
-            min-height: 100dvh;
-        }
-
-        .card-inner {
+        /* Tall, full-screen container */
+        .container {
             width: 100%;
-            min-height: 100%;
-            position: relative;
-            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            transform-style: preserve-3d;
-        }
-
-        .card-inner.is-flipped {
-            transform: rotateY(180deg);
-        }
-
-        .card-face {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            min-height: 100%;
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
+            height: 100%;
             display: flex;
             flex-direction: column;
-            padding-top: env(safe-area-inset-top);
-            padding-bottom: env(safe-area-inset-bottom);
+            justify-content: space-between; /* Spreads content top to bottom */
+            padding: 40px 20px; /* Big padding for a spacious feel */
+            text-align: center;
         }
 
-        .card-front {
-            background-color: #68c6e8;
-        }
-
-        .card-back {
-            transform: rotateY(180deg);
-            align-items: center;
-            justify-content: center;
-            background-color: #68c6e8;
-            min-height: 100vh;
-            min-height: 100dvh;
-        }
-
-        .accent-gold { color: #d4af37; }
-        .bg-accent-gold { background-color: #d4af37; }
-        .border-accent-gold { border-color: #d4af37; }
-
-        .text-custom-yellow { color: #f7ff08; }
-
-        /* Compact info rows, like a real contact card */
-        .info-row {
+        /* Header */
+        .header {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: space-between;
-            background-color: rgba(255,255,255,0.55);
-            border: 1px solid rgba(255,255,255,0.6);
-            border-radius: 14px;
-            padding: 10px 14px;
+            gap: 10px;
+            margin-top: 10px;
         }
-        .info-row .label {
-            font-size: 10px;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: #0f172a;
-            opacity: 0.6;
-            font-weight: 600;
+
+        h1 {
+            font-size: 32px; /* Fixed big size */
+            font-weight: 800;
+            line-height: 1.2;
         }
-        .info-row .value {
-            font-size: 14px;
+
+        .tagline {
+            background-color: var(--dark-btn);
+            color: var(--text-light);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 14px; /* Fixed size */
             font-weight: 700;
-            color: #0f172a;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
-        .info-icon {
-            width: 34px;
-            height: 34px;
-            border-radius: 10px;
-            background-color: rgba(15,23,42,0.9);
+
+        /* Button Groupings */
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+            /* This makes the buttons stretch to fill the middle space */
+            flex-grow: 1; 
+            justify-content: center;
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 15px;
+            width: 100%;
+            /* Stretch rows equally */
+            flex: 1; 
+        }
+
+        .btn {
+            flex: 1;
+            border-radius: 16px;
+            border: none;
+            font-size: 18px; /* Big readable text */
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column; /* Stacks icon over text for bigger look */
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            transition: all 0.2s ease-in-out; 
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            padding: 10px;
+        }
+
+        .btn i {
+            font-size: 24px; /* Big icons */
+        }
+
+        .btn:active {
+            transform: scale(0.97);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            opacity: 0.9;
+        }
+
+        .btn-dark {
+            background-color: var(--dark-btn);
+            color: var(--text-light);
+        }
+
+        .btn-light {
+            background-color: var(--light-btn);
+            color: var(--text-dark);
+        }
+
+        /* Info Box for Share */
+        .info-box {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 20px;
             display: flex;
             align-items: center;
+            text-align: left;
+            gap: 15px;
+            width: 100%;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+            flex: 1; /* Stretches to match height */
+            max-height: 100px; /* But prevents it from getting too tall */
+        }
+
+        .info-box:active {
+            transform: scale(0.98);
+        }
+
+        .icon-circle {
+            background-color: var(--dark-btn);
+            color: var(--text-light);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
             justify-content: center;
-            color: #d4af37;
+            align-items: center;
+            font-size: 20px;
             flex-shrink: 0;
         }
-        .info-action {
-            width: 30px;
-            height: 30px;
-            border-radius: 8px;
+
+        .info-content {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #0f172a;
-            opacity: 0.55;
+            flex-direction: column;
+            flex-grow: 1;
         }
 
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background-color: #1f2937;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 9999px;
-            font-size: 14px;
-            font-weight: 500;
-            opacity: 0;
-            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            z-index: 50;
-            text-align: center;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
-            border: 1px solid #d4af37;
-            width: max-content;
-            max-width: 90vw;
+        .info-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: #555;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 4px;
         }
 
-        .toast.show {
-            transform: translateX(-50%) translateY(0);
-            opacity: 1;
+        .info-value {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--text-dark);
         }
+
+        .copy-icon {
+            color: #666;
+            font-size: 22px;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .copy-icon:active {
+            color: var(--text-dark);
+        }
+
     </style>
 </head>
 <body>
 
-    <!-- Toast Notification Element -->
-    <div id="toast" class="toast">Message</div>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>Dr. Colbert Pierre</h1>
+            <div class="tagline">Artiste | Poet | Music</div>
+        </div>
 
-    <div class="card-container">
-        <div class="card-inner" id="ecard">
-
-            <!-- FRONT OF CARD -->
-            <div class="card-face card-front">
-                <div class="w-full max-w-md mx-auto px-5 pt-6 pb-8 flex flex-col gap-4">
-
-                    <!-- Header -->
-                    <div class="text-center">
-                        <div class="w-20 h-20 mx-auto bg-gray-900 rounded-full border-2 border-accent-gold flex items-center justify-center mb-3 shadow-[0_0_15px_rgba(212,175,55,0.3)]">
-                            <i class="fa-solid fa-music text-2xl accent-gold"></i>
-                        </div>
-                        <h1 class="title-font text-2xl text-gray-900 font-bold tracking-wide mb-1">
-                            Dr. Colbert Pierre
-                        </h1>
-                        <h2 class="text-[11px] uppercase tracking-[0.2em] text-custom-yellow font-bold bg-gray-900/80 inline-block px-3 py-1 rounded-full">
-                            Artiste <span class="text-gray-200 mx-1">|</span> Poet <span class="text-gray-200 mx-1">|</span> Music
-                        </h2>
-                    </div>
-
-                    <!-- Primary actions: two-column -->
-                    <div class="grid grid-cols-2 gap-3">
-                        <a href="tel:5308404389" class="flex items-center justify-center gap-2 px-3 py-3 rounded-xl bg-gray-900 text-white font-semibold text-sm shadow-sm">
-                            <i class="fa-solid fa-phone accent-gold"></i> Call Direct
-                        </a>
-                        <a href="sms:5308404389" class="flex items-center justify-center gap-2 px-3 py-3 rounded-xl bg-white text-gray-900 font-semibold text-sm shadow-sm border border-gray-900/10">
-                            <i class="fa-solid fa-comment-sms" style="color:#0f172a"></i> Send SMS
-                        </a>
-                    </div>
-
-                    <!-- Social -->
-                    <a href="https://www.instagram.com/stra.t.o/" target="_blank" class="flex items-center justify-center gap-2 w-full px-3 py-3 rounded-xl bg-gray-900 text-white font-semibold text-sm shadow-sm">
-                        <i class="fa-brands fa-instagram accent-gold"></i> Instagram
-                    </a>
-
-                    <!-- Info rows -->
-                    <div class="flex flex-col gap-2 mt-1">
-                        <div class="info-row">
-                            <div class="flex items-center gap-3 min-w-0">
-                                <div class="info-icon"><i class="fa-solid fa-phone text-xs"></i></div>
-                                <div class="min-w-0">
-                                    <div class="label">Phone</div>
-                                    <div class="value">(530) 840-4389</div>
-                                </div>
-                            </div>
-                            <button onclick="copyText('5308404389','Phone number copied!')" class="info-action" aria-label="Copy phone number">
-                                <i class="fa-solid fa-copy"></i>
-                            </button>
-                        </div>
-
-                        <div class="info-row">
-                            <div class="flex items-center gap-3 min-w-0">
-                                <div class="info-icon"><i class="fa-solid fa-globe text-xs"></i></div>
-                                <div class="min-w-0">
-                                    <div class="label">Official Website</div>
-                                    <div class="value truncate">colbertlartiste.com</div>
-                                </div>
-                            </div>
-                            <a href="https://colbertlartiste.taniadomingue.multisiteadmin.com/a/preview" target="_blank" class="info-action" aria-label="Open website">
-                                <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                            </a>
-                        </div>
-
-                        <div class="info-row">
-                            <div class="flex items-center gap-3 min-w-0">
-                                <div class="info-icon"><i class="fa-solid fa-share-nodes text-xs"></i></div>
-                                <div class="min-w-0">
-                                    <div class="label">Share This Card</div>
-                                    <div class="value">Copy link to paste anywhere</div>
-                                </div>
-                            </div>
-                            <button onclick="shareCard()" class="info-action" aria-label="Share card">
-                                <i class="fa-solid fa-copy"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Bottom action bar -->
-                    <div class="grid grid-cols-2 gap-3 mt-2">
-                        <button onclick="downloadVCard()" class="flex items-center justify-center gap-2 px-3 py-3.5 rounded-xl bg-gray-900 text-white font-semibold text-sm shadow-sm">
-                            <i class="fa-solid fa-user-plus accent-gold"></i> Save Contact
-                        </button>
-                        <button onclick="toggleCard()" class="flex items-center justify-center gap-2 px-3 py-3.5 rounded-xl bg-white text-gray-900 font-semibold text-sm shadow-sm border border-gray-900/10">
-                            <i class="fa-solid fa-qrcode"></i> QR Code
-                        </button>
-                    </div>
-                </div>
+        <!-- Middle Button Area (Stretches to fill space) -->
+        <div class="button-group">
+            <!-- Call & SMS Buttons -->
+            <div class="btn-row">
+                <a href="tel:5308404389" class="btn btn-dark">
+                    <i class="fas fa-phone-alt"></i> Call Direct
+                </a>
+                <a href="sms:5308404389" class="btn btn-light">
+                    <i class="fas fa-comment-alt"></i> Send SMS
+                </a>
             </div>
 
-            <!-- BACK OF CARD -->
-            <div class="card-face card-back p-6">
-                <div class="relative z-10 flex flex-col items-center justify-center h-full w-full text-center">
-
-                    <!-- QR Code (Generated via Google/QRServer API) -->
-                    <div class="p-4 bg-white rounded-2xl shadow-xl mb-8">
-                        <img
-                            src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https%3A%2F%2Fcolbertlartiste.taniadomingue.multisiteadmin.com%2Fa%2Fpreview&margin=0"
-                            alt="Website QR Code"
-                            class="w-56 h-56 block"
-                        >
-                    </div>
-
-                    <p class="text-xs text-gray-800 font-bold mb-8 bg-white/40 px-3 py-1 rounded-lg border border-white/50">colbertlartiste.taniadomingue.multisiteadmin.com</p>
-
-                    <!-- Flip Back Button -->
-                    <div class="w-full max-w-xs">
-                        <button onclick="toggleCard()" class="flex items-center justify-center w-full px-6 py-3 rounded-xl border border-gray-900/10 bg-gray-900 text-white transition-all duration-300 shadow-sm font-medium tracking-wide">
-                            <i class="fa-solid fa-arrow-rotate-left mr-2 accent-gold"></i> Back to Card
-                        </button>
-                    </div>
-                </div>
+            <!-- Instagram Button -->
+            <div class="btn-row">
+                <a href="https://instagram.com" target="_blank" class="btn btn-dark">
+                    <i class="fab fa-instagram"></i> Instagram
+                </a>
             </div>
 
+            <!-- Share Info Box -->
+            <div class="info-box">
+                <div class="icon-circle">
+                    <i class="fas fa-share-alt"></i>
+                </div>
+                <div class="info-content">
+                    <span class="info-label">Share This Card</span>
+                    <span class="info-value">Copy link to paste anywhere</span>
+                </div>
+                <i class="far fa-copy copy-icon" onclick="copyToClipboard(window.location.href)"></i>
+            </div>
+
+            <!-- Save Contact & QR Code -->
+            <div class="btn-row">
+                <button onclick="downloadVCard()" class="btn btn-dark">
+                    <i class="fas fa-user-plus"></i> Save Contact
+                </button>
+                <button onclick="alert('QR Code feature would generate a QR code for this page link.')" class="btn btn-light">
+                    <i class="fas fa-qrcode"></i> QR Code
+                </button>
+            </div>
         </div>
     </div>
 
     <script>
-        function toggleCard() {
-            const card = document.getElementById('ecard');
-            card.classList.toggle('is-flipped');
+        // --- 1. Service Worker Registration ---
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('serviceworker.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registration successful');
+                    })
+                    .catch(err => {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+            });
         }
 
+        // --- 2. Copy to Clipboard Function ---
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Link copied to clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        }
+
+        // --- 3. Save Contact (vCard) Function ---
         function downloadVCard() {
-            const vCardData = `BEGIN:VCARD
+            const name = "Dr. Colbert Pierre";
+            const phone = "5308404389";
+            const email = "colpierre23@yahoo.fr"; // Hidden from screen
+
+            const vcardData = `BEGIN:VCARD
 VERSION:3.0
-N:Pierre;Colbert;;Dr.;
-FN:Dr. Colbert Pierre
-ORG:Artiste | Poet | Music
-TITLE:Artiste | Poet | Music
-TEL;TYPE=CELL,VOICE:5308404389
-EMAIL;TYPE=PREF,INTERNET:colpierre23@yahoo.fr
-URL:https://colbertlartiste.taniadomingue.multisiteadmin.com/a/preview
-URL:https://www.instagram.com/stra.t.o/
+N:${name};;;;
+FN:${name}
+TEL;TYPE=CELL:${phone}
+EMAIL:${email}
 END:VCARD`;
 
-            const blob = new Blob([vCardData], { type: 'text/vcard;charset=utf-8' });
+            const blob = new Blob([vcardData], { type: 'text/vcard;charset=utf-8' });
             const url = URL.createObjectURL(blob);
+            
             const link = document.createElement('a');
             link.href = url;
-            link.setAttribute('download', 'Dr_Colbert_Pierre.vcf');
+            link.download = 'Dr_Colbert_Pierre.vcf';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
             URL.revokeObjectURL(url);
-            showNotification('Contact saved!');
-        }
-
-        function showNotification(message) {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.classList.add('show');
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
-        }
-
-        function copyText(text, message) {
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(text).then(() => showNotification(message))
-                    .catch(() => legacyCopy(text, message));
-            } else {
-                legacyCopy(text, message);
-            }
-        }
-
-        function legacyCopy(text, message) {
-            const tempInput = document.createElement('input');
-            tempInput.value = text;
-            document.body.appendChild(tempInput);
-            tempInput.select();
-            try {
-                document.execCommand('copy');
-                showNotification(message);
-            } catch (err) {
-                showNotification('Could not copy.');
-            }
-            document.body.removeChild(tempInput);
-        }
-
-        function shareCard() {
-            const url = window.location.href;
-            if (navigator.share) {
-                navigator.share({
-                    title: 'Dr. Colbert Pierre - E-Card',
-                    url: url
-                }).catch(() => {});
-            } else {
-                copyText(url, 'Link copied to clipboard!');
-            }
-        }
-
-        // Register service worker for real PWA installability
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js').catch(() => {});
-            });
         }
     </script>
 </body>
