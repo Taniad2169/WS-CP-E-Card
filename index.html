@@ -20,8 +20,8 @@
                     colors: {
                         brand: {
                             light: '#b1d6fa',
-                            primary: '#3d9af5',
-                            bg: '#65c2f7',
+                            primary: '#0b8ad4',
+                            bg: '#0b8ad4',
                         }
                     }
                 }
@@ -38,7 +38,8 @@
             justify-content: center;
             margin: 0;
             font-family: 'Inter', sans-serif;
-            padding: 1rem;
+            /* FIX: removed padding so card reaches the edges on mobile */
+            padding: 0;
         }
 
         .flip-card {
@@ -73,7 +74,8 @@
             -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
             border-radius: 1.5rem;
-            background-color: #65c2f7;
+            /* FIX: new background color */
+            background-color: #0b8ad4;
             display: flex;
             flex-direction: column;
             overflow-y: auto;
@@ -92,7 +94,7 @@
 
         .action-button {
             background-color: #ffffff;
-            color: #3d9af5;
+            color: #0b8ad4;
             border-radius: 1rem;
             padding: 0.75rem;
             display: flex;
@@ -111,14 +113,14 @@
         .action-button:hover, .action-button:active {
             transform: translateY(-2px);
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-            color: #2a7cd6;
+            color: #0968a3;
         }
 
         .action-icon-wrapper {
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background-color: #f0f7ff;
+            background-color: #eaf4fd;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -127,7 +129,7 @@
         }
 
         .action-button:hover .action-icon-wrapper {
-            background-color: #3d9af5;
+            background-color: #0b8ad4;
             color: #ffffff;
         }
 
@@ -145,7 +147,8 @@
 <body>
 
     <div class="flip-card" id="cardContainer">
-        <div class="flip-card-inner border border-white/30">
+        <!-- FIX: removed "border border-white/30" wrapper that was creating the outline -->
+        <div class="flip-card-inner">
 
             <!-- ================= FRONT OF CARD ================= -->
             <div class="flip-card-front p-5 sm:p-6">
@@ -157,7 +160,7 @@
                              src="colbert-artiste.jpg"
                              alt="The Colbert L'Artiste — Artisan Brushworks, Est. 2024"
                              class="w-full h-full object-cover"
-                             onerror="this.onerror=null;this.src='https://placehold.co/600x600/8b1a1a/ffffff?text=Colbert+L%27Artiste';">
+                             onerror="this.onerror=null;this.src='https://placehold.co/600x600/0b8ad4/ffffff?text=Colbert+L%27Artiste';">
                     </div>
                 </div>
 
