@@ -2,22 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- This meta tag is crucial to stop mobile phones from zooming out and making things tiny -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#5BC0DE">
     <title>Dr. Colbert Pierre</title>
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --bg-blue: #5BC0DE;
-            --dark-btn: #1A2B3C;
-            --light-btn: #FFFFFF;
-            --text-dark: #1A2B3C;
-            --text-light: #FFFFFF;
-            --card-bg: #8ED2E6;
-        }
-
+        /* Reset */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -26,169 +17,146 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        html, body {
-            background-color: var(--bg-blue);
-            color: var(--text-dark);
-            min-height: 100%;
-            width: 100%;
-        }
-
+        /* Basic blue background, no stretching */
         body {
+            background-color: #5BC0DE;
+            color: #1A2B3C;
             display: flex;
-            flex-direction: column;
-            padding: 30px 20px;
+            justify-content: center;
+            padding: 20px 15px;
+            min-height: 100vh;
         }
 
-        /* Container holds everything with a nice gap, no forced stretching */
+        /* Fixed-width card, no stretching */
         .container {
             width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 20px; 
+            max-width: 400px;
             text-align: center;
-            margin: auto 0; 
         }
 
-        /* Header */
+        /* Header styles */
         h1 {
-            font-size: 32px; 
+            font-size: 28px;
             font-weight: 800;
-            line-height: 1.2;
+            margin-bottom: 10px;
         }
 
         .tagline {
             display: inline-block;
-            background-color: var(--dark-btn);
-            color: var(--text-light);
-            padding: 8px 20px;
-            border-radius: 30px;
-            font-size: 14px;
+            background-color: #1A2B3C;
+            color: #FFFFFF;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12px;
             font-weight: 700;
             letter-spacing: 1px;
             text-transform: uppercase;
-            margin-top: 10px;
-            align-self: center;
+            margin-bottom: 20px;
         }
 
-        /* Button Rows */
-        .btn-row {
-            display: flex;
-            gap: 15px;
-            width: 100%;
-        }
-
-        /* Fixed button size, rounded pill shape, side-by-side icon and text */
+        /* --- BUTTONS - FIXED SIZE, NO STRETCHING --- */
         .btn {
-            flex: 1;
-            padding: 18px 10px; 
-            border-radius: 50px; /* Pill shape */
-            border: none;
-            font-size: 16px; 
-            font-weight: 700;
-            cursor: pointer;
             display: flex;
-            flex-direction: row; /* Side by side */
-            justify-content: center;
             align-items: center;
+            justify-content: center;
             gap: 10px;
+            width: 100%;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.15);
             text-decoration: none;
-            transition: transform 0.1s;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-            touch-action: manipulation; /* Ensures instant tap response on mobile */
-        }
-
-        .btn i {
-            font-size: 20px; 
         }
 
         .btn:active {
-            transform: scale(0.96);
-        }
-
-        .btn-dark {
-            background-color: var(--dark-btn);
-            color: var(--text-light);
-        }
-
-        .btn-light {
-            background-color: var(--light-btn);
-            color: var(--text-dark);
-        }
-
-        /* Instagram Button */
-        .btn-full {
-            width: 100%;
-        }
-
-        /* Info Box */
-        .info-box {
-            background-color: var(--card-bg);
-            border-radius: 16px;
-            padding: 18px 20px;
-            display: flex;
-            align-items: center;
-            text-align: left;
-            gap: 15px;
-            width: 100%;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            touch-action: manipulation;
-        }
-
-        .info-box:active {
             transform: scale(0.98);
         }
 
+        .btn-dark {
+            background-color: #1A2B3C;
+            color: #FFFFFF;
+        }
+
+        .btn-light {
+            background-color: #FFFFFF;
+            color: #1A2B3C;
+        }
+
+        /* Row for two buttons side-by-side */
+        .btn-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .btn-row .btn {
+            margin-bottom: 0;
+        }
+
+        /* --- SHARE INFO BOX - FIXED SIZE --- */
+        .info-box {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background-color: #8ED2E6;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            text-align: left;
+        }
+
         .icon-circle {
-            background-color: var(--dark-btn);
-            color: var(--text-light);
-            width: 50px;
-            height: 50px;
+            background-color: #1A2B3C;
+            color: #FFFFFF;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             display: flex;
-            justify-content: center;
             align-items: center;
-            font-size: 20px;
+            justify-content: center;
+            font-size: 18px;
             flex-shrink: 0;
         }
 
-        .info-content {
+        .info-text {
             display: flex;
             flex-direction: column;
             flex-grow: 1;
         }
 
         .info-label {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 700;
             color: #555;
             letter-spacing: 1px;
             text-transform: uppercase;
-            margin-bottom: 4px;
+            margin-bottom: 3px;
         }
 
         .info-value {
             font-size: 16px;
             font-weight: 800;
-            color: var(--text-dark);
+            color: #1A2B3C;
         }
 
         .copy-icon {
             color: #444;
-            font-size: 22px;
+            font-size: 20px;
             cursor: pointer;
             padding: 5px;
         }
-
     </style>
 </head>
 <body>
 
     <div class="container">
         <!-- Header -->
-        <div>
-            <h1>Dr. Colbert Pierre</h1>
-            <div class="tagline">Artiste | Poet | Music</div>
-        </div>
+        <h1>Dr. Colbert Pierre</h1>
+        <div class="tagline">Artiste | Poet | Music</div>
 
         <!-- Call & SMS Buttons -->
         <div class="btn-row">
@@ -201,7 +169,7 @@
         </div>
 
         <!-- Instagram Button -->
-        <a href="https://instagram.com" target="_blank" class="btn btn-dark btn-full">
+        <a href="https://instagram.com" target="_blank" class="btn btn-dark">
             <i class="fab fa-instagram"></i> Instagram
         </a>
 
@@ -210,7 +178,7 @@
             <div class="icon-circle">
                 <i class="fas fa-share-alt"></i>
             </div>
-            <div class="info-content">
+            <div class="info-text">
                 <span class="info-label">Share This Card</span>
                 <span class="info-value">Copy link to paste anywhere</span>
             </div>
@@ -255,7 +223,7 @@
         function downloadVCard() {
             const name = "Dr. Colbert Pierre";
             const phone = "5308404389";
-            const email = "colpierre23@yahoo.fr"; // Hidden from screen
+            const email = "colpierre23@yahoo.fr";
 
             const vcardData = `BEGIN:VCARD
 VERSION:3.0
