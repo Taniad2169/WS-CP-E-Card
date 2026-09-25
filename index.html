@@ -26,7 +26,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
-            padding: 14px;
+            padding: 12px;
         }
 
         .card-wrapper {
@@ -36,7 +36,7 @@
             perspective: 1200px;
         }
 
-        /* ===== CARD — no min-height ocean, sized by content ===== */
+        /* ===== CARD CONTAINER ===== */
         .flip-card-inner {
             position: relative;
             width: 100%;
@@ -51,8 +51,8 @@
             width: 100%;
             background-color: #0a5a87;
             border: 1px solid rgba(255,255,255,0.15);
-            border-radius: 22px;
-            padding: 22px 20px;
+            border-radius: 20px;
+            padding: 16px;
             display: flex;
             flex-direction: column;
             backface-visibility: hidden;
@@ -73,17 +73,17 @@
             text-align: center;
         }
 
-        /* ===== BUTTONS — big, dominant, bold ===== */
+        /* ===== BUTTONS — now take full grid space and dominate ===== */
         .action-button {
             background-color: #ffffff;
             color: #084c73;
-            border-radius: 16px;
-            padding: 22px 14px;
+            border-radius: 14px;
+            padding: 18px 12px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 8px;
             box-shadow: 0 8px 20px rgba(0,0,0,0.4), 0 3px 6px rgba(0,0,0,0.3);
             border: 2px solid #ffffff;
             transition: all 0.2s ease;
@@ -91,6 +91,7 @@
             width: 100%;
             text-decoration: none;
             font-weight: 800;
+            min-height: 110px;
         }
         .action-button:hover, .action-button:active {
             transform: translateY(-3px);
@@ -121,8 +122,8 @@
             background-color: #ffffff;
             color: #084c73;
             font-weight: 800;
-            padding: 20px;
-            border-radius: 16px;
+            padding: 22px;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -132,8 +133,9 @@
             border: 2px solid #ffffff;
             box-shadow: 0 8px 20px rgba(0,0,0,0.4), 0 3px 6px rgba(0,0,0,0.3);
             transition: all 0.2s ease;
-            margin-bottom: 18px;
+            margin-bottom: 14px;
             letter-spacing: 0.05em;
+            min-height: 72px;
         }
         .qr-flip-button:hover, .qr-flip-button:active {
             transform: translateY(-3px);
@@ -145,7 +147,7 @@
             background-color: #ffffff;
             border: 2px solid #ffffff;
             color: #084c73;
-            padding: 16px;
+            padding: 18px 12px;
             border-radius: 14px;
             font-size: 13px;
             font-weight: 800;
@@ -154,14 +156,15 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            box-shadow: 0 6px 16px rgba(0,0,0,0.35), 0 2px 4px rgba(0,0,0,0.2);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4), 0 3px 6px rgba(0,0,0,0.3);
             transition: all 0.2s ease;
             text-transform: uppercase;
             letter-spacing: 0.05em;
+            min-height: 56px;
         }
         .install-btn:hover, .install-btn:active {
             transform: translateY(-2px);
-            box-shadow: 0 10px 22px rgba(0,0,0,0.45), 0 3px 8px rgba(0,0,0,0.25);
+            box-shadow: 0 12px 26px rgba(0,0,0,0.45), 0 4px 8px rgba(0,0,0,0.25);
         }
 
         .qr-box {
@@ -183,8 +186,8 @@
             background: #ffffff;
             color: #084c73;
             font-weight: 800;
-            padding: 18px;
-            border-radius: 16px;
+            padding: 20px;
+            border-radius: 14px;
             border: 2px solid #ffffff;
             cursor: pointer;
             display: flex;
@@ -194,6 +197,7 @@
             font-size: 15px;
             box-shadow: 0 8px 20px rgba(0,0,0,0.4);
             transition: all 0.2s ease;
+            min-height: 60px;
         }
         .back-btn:hover, .back-btn:active {
             transform: translateY(-3px);
@@ -210,10 +214,11 @@
         }
 
         @media (max-width: 400px) {
-            .card-face { padding: 18px 16px; border-radius: 18px; }
+            .card-face { padding: 14px; border-radius: 18px; }
             .qr-box img { width: 200px; height: 200px; }
             .action-icon-wrapper { width: 46px; height: 46px; font-size: 1.3rem; }
-            .action-button { padding: 18px 10px; }
+            .action-button { padding: 16px 10px; min-height: 100px; }
+            .qr-flip-button { padding: 18px; min-height: 64px; }
         }
     </style>
 </head>
@@ -226,11 +231,11 @@
             <div class="card-face card-front">
 
                 <!-- Name block -->
-                <div style="text-align:center; margin-bottom:22px;">
-                    <h1 style="font-family:'Playfair Display',serif; font-size:32px; font-weight:700; margin:0 0 10px; letter-spacing:0.5px; color:#ffffff; line-height:1.15;">
+                <div style="text-align:center; margin-bottom:16px;">
+                    <h1 style="font-family:'Playfair Display',serif; font-size:30px; font-weight:700; margin:0 0 8px; letter-spacing:0.5px; color:#ffffff; line-height:1.15;">
                         Dr. Colbert Pierre
                     </h1>
-                    <div style="display:flex; align-items:center; justify-content:center; gap:12px; font-size:12px; font-weight:700; letter-spacing:0.25em; text-transform:uppercase; opacity:0.9;">
+                    <div style="display:flex; align-items:center; justify-content:center; gap:10px; font-size:11px; font-weight:700; letter-spacing:0.25em; text-transform:uppercase; opacity:0.9;">
                         <span>Music</span>
                         <span style="width:5px; height:5px; border-radius:50%; background:#ffffff;"></span>
                         <span>Art</span>
@@ -239,8 +244,8 @@
                     </div>
                 </div>
 
-                <!-- ACTION BUTTONS — dominate the card -->
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:18px;">
+                <!-- ACTION BUTTONS — fill the card -->
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px;">
                     <a href="tel:5308404389" class="action-button">
                         <div class="action-icon-wrapper"><i class="fas fa-phone"></i></div>
                         <span style="font-size:14px; color:#084c73; letter-spacing:0.03em;">Call</span>
@@ -257,7 +262,7 @@
                         <div class="action-icon-wrapper"><i class="fab fa-instagram"></i></div>
                         <span style="font-size:14px; color:#084c73; letter-spacing:0.03em;">Instagram</span>
                     </a>
-                    <button onclick="shareCard()" class="action-button" style="grid-column: span 2; flex-direction:row; padding:22px;">
+                    <button onclick="shareCard()" class="action-button" style="grid-column: span 2; flex-direction:row; padding:22px; min-height:70px;">
                         <i class="fas fa-share-nodes" style="font-size:20px; margin-right:12px;"></i>
                         <span style="font-size:15px; color:#084c73; letter-spacing:0.03em;">Copy &amp; Share Card</span>
                     </button>
@@ -270,7 +275,7 @@
                 </button>
 
                 <!-- INSTALL SECTION -->
-                <div style="border-top:1px solid rgba(255,255,255,0.3); padding-top:18px; display:flex; flex-direction:column; align-items:center; gap:12px;">
+                <div style="border-top:1px solid rgba(255,255,255,0.3); padding-top:12px; display:flex; flex-direction:column; align-items:center; gap:10px;">
                     <span style="font-size:10px; text-transform:uppercase; letter-spacing:0.25em; font-weight:800; opacity:0.85;">Install to Device</span>
                     <div style="display:flex; gap:12px; width:100%;">
                         <button onclick="showInstallInstructions('iOS')" class="install-btn">
@@ -285,10 +290,10 @@
 
             <!-- ============ BACK ============ -->
             <div class="card-face card-back">
-                <h2 style="font-family:'Playfair Display',serif; font-size:30px; font-weight:700; margin:0 0 12px; color:#ffffff;">Scan to Connect</h2>
-                <p style="font-size:14px; opacity:0.9; margin:0 0 30px; padding:0 20px;">Point your camera at this code to view the full website and portfolio.</p>
+                <h2 style="font-family:'Playfair Display',serif; font-size:28px; font-weight:700; margin:0 0 12px; color:#ffffff;">Scan to Connect</h2>
+                <p style="font-size:14px; opacity:0.9; margin:0 0 24px; padding:0 20px;">Point your camera at this code to view the full website and portfolio.</p>
 
-                <div class="qr-box" style="margin-bottom:32px;">
+                <div class="qr-box" style="margin-bottom:24px;">
                     <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://colbertlartiste.taniadomingue.multisiteadmin.com/a/preview"
                          alt="QR Code">
                 </div>
