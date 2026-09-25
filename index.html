@@ -3,392 +3,471 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Dr. Colbert Pierre - E-Card</title>
+    <title>Dr. Colbert Pierre | Music · Art · Poetry</title>
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
-        * { box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         html, body {
-            margin: 0;
-            padding: 0;
             width: 100%;
             min-height: 100vh;
             background-color: #084c73;
             font-family: 'Inter', sans-serif;
             color: #ffffff;
+            -webkit-font-smoothing: antialiased;
         }
 
         body {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-start;
-            padding: 12px;
+            justify-content: center;
+            padding: 20px 18px;
         }
 
-        .card-wrapper {
+        /* ===== FLIP CONTAINER ===== */
+        .flip-container {
             width: 100%;
-            max-width: 480px;
-            margin: 0 auto;
-            perspective: 1200px;
+            max-width: 460px;
+            perspective: 1400px;
         }
 
-        /* ===== CARD CONTAINER ===== */
-        .flip-card-inner {
+        .flip-inner {
             position: relative;
             width: 100%;
             transform-style: preserve-3d;
             transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
         }
-        .flip-card-inner.is-flipped {
+
+        .flip-inner.flipped {
             transform: rotateY(180deg);
         }
 
-        .card-face {
+        .flip-front,
+        .flip-back {
             width: 100%;
-            background-color: #0a5a87;
-            border: 1px solid rgba(255,255,255,0.15);
-            border-radius: 20px;
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
             backface-visibility: hidden;
             -webkit-backface-visibility: hidden;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.35);
         }
 
-        .card-front {
-            position: relative;
-        }
-
-        .card-back {
+        .flip-back {
             position: absolute;
             inset: 0;
             transform: rotateY(180deg);
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
-
-        /* ===== BUTTONS — now take full grid space and dominate ===== */
-        .action-button {
-            background-color: #ffffff;
-            color: #084c73;
-            border-radius: 14px;
-            padding: 18px 12px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.4), 0 3px 6px rgba(0,0,0,0.3);
-            border: 2px solid #ffffff;
-            transition: all 0.2s ease;
-            cursor: pointer;
-            width: 100%;
-            text-decoration: none;
-            font-weight: 800;
-            min-height: 110px;
-        }
-        .action-button:hover, .action-button:active {
-            transform: translateY(-3px);
-            box-shadow: 0 14px 28px rgba(0,0,0,0.45), 0 5px 10px rgba(0,0,0,0.3);
+            padding: 30px 22px;
+            background-color: #0a5a87;
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 22px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.35);
         }
 
-        .action-icon-wrapper {
-            width: 52px;
-            height: 52px;
-            border-radius: 50%;
-            background-color: #e6f0f6;
+        /* ===== FRONT CARD ===== */
+        .card {
+            background-color: #0a5a87;
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 22px;
+            padding: 28px 22px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.35);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            text-align: center;
+            margin-bottom: 26px;
+            padding-bottom: 22px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 30px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            line-height: 1.15;
+            margin-bottom: 10px;
+        }
+
+        .header .tagline {
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
-            color: #084c73;
-            transition: all 0.2s;
-            border: 1px solid #c8dbe8;
+            gap: 10px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            opacity: 0.85;
         }
-        .action-button:hover .action-icon-wrapper {
+
+        .header .dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: #ffffff;
+            display: inline-block;
+        }
+
+        /* ===== BUTTONS ===== */
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background-color: #ffffff;
+            color: #084c73;
+            text-decoration: none;
+            border: 2px solid #ffffff;
+            border-radius: 14px;
+            padding: 16px 20px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 700;
+            font-size: 16px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.35), 0 2px 4px rgba(0,0,0,0.25);
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+            text-align: left;
+            width: 100%;
+        }
+
+        .btn:active {
+            transform: translateY(1px) scale(0.985);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.4);
+        }
+
+        .btn-icon {
+            width: 42px;
+            height: 42px;
+            min-width: 42px;
+            border-radius: 10px;
+            background-color: #e6f0f6;
+            color: #084c73;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: all 0.2s ease;
+        }
+
+        .btn:hover .btn-icon {
             background-color: #084c73;
             color: #ffffff;
-            border-color: #084c73;
         }
 
-        .qr-flip-button {
-            width: 100%;
-            background-color: #ffffff;
-            color: #084c73;
-            font-weight: 800;
-            padding: 22px;
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            cursor: pointer;
-            font-size: 16px;
-            border: 2px solid #ffffff;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.4), 0 3px 6px rgba(0,0,0,0.3);
-            transition: all 0.2s ease;
-            margin-bottom: 14px;
-            letter-spacing: 0.05em;
-            min-height: 72px;
-        }
-        .qr-flip-button:hover, .qr-flip-button:active {
-            transform: translateY(-3px);
-            box-shadow: 0 14px 28px rgba(0,0,0,0.45), 0 5px 10px rgba(0,0,0,0.3);
-        }
-
-        .install-btn {
+        .btn-label {
             flex: 1;
-            background-color: #ffffff;
-            border: 2px solid #ffffff;
+            font-size: 15px;
+            font-weight: 700;
             color: #084c73;
-            padding: 18px 12px;
-            border-radius: 14px;
-            font-size: 13px;
-            font-weight: 800;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.4), 0 3px 6px rgba(0,0,0,0.3);
-            transition: all 0.2s ease;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            min-height: 56px;
         }
-        .install-btn:hover, .install-btn:active {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 26px rgba(0,0,0,0.45), 0 4px 8px rgba(0,0,0,0.25);
+
+        .btn-arrow {
+            font-size: 13px;
+            opacity: 0.4;
+            transition: all 0.2s ease;
+        }
+
+        .btn:hover .btn-arrow {
+            opacity: 1;
+            transform: translateX(3px);
+        }
+
+        /* ===== BACK CARD ===== */
+        .back-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .back-sub {
+            font-size: 13px;
+            opacity: 0.85;
+            text-align: center;
+            margin-bottom: 24px;
+            padding: 0 10px;
         }
 
         .qr-box {
             background: #ffffff;
-            padding: 18px;
-            border-radius: 20px;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+            padding: 16px;
+            border-radius: 16px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+            margin-bottom: 26px;
         }
+
         .qr-box img {
-            width: 240px;
-            height: 240px;
-            object-fit: contain;
             display: block;
+            width: 220px;
+            height: 220px;
         }
 
         .back-btn {
-            width: 100%;
-            max-width: 320px;
             background: #ffffff;
             color: #084c73;
-            font-weight: 800;
-            padding: 20px;
-            border-radius: 14px;
             border: 2px solid #ffffff;
+            border-radius: 14px;
+            padding: 16px 24px;
+            font-family: inherit;
+            font-weight: 800;
+            font-size: 15px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
-            font-size: 15px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-            transition: all 0.2s ease;
-            min-height: 60px;
-        }
-        .back-btn:hover, .back-btn:active {
-            transform: translateY(-3px);
-            box-shadow: 0 14px 28px rgba(0,0,0,0.45);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.35);
+            transition: transform 0.15s ease;
+            letter-spacing: 0.03em;
         }
 
-        @keyframes slideUpFade {
-            0% { transform: translate(-50%, 20px); opacity: 0; }
-            100% { transform: translate(-50%, 0); opacity: 1; }
-        }
-        .toast-visible {
-            animation: slideUpFade 0.4s ease forwards;
-            display: flex !important;
+        .back-btn:active {
+            transform: translateY(1px) scale(0.985);
         }
 
-        @media (max-width: 400px) {
-            .card-face { padding: 14px; border-radius: 18px; }
-            .qr-box img { width: 200px; height: 200px; }
-            .action-icon-wrapper { width: 46px; height: 46px; font-size: 1.3rem; }
-            .action-button { padding: 16px 10px; min-height: 100px; }
-            .qr-flip-button { padding: 18px; min-height: 64px; }
+        /* ===== TOAST ===== */
+        .toast {
+            position: fixed;
+            left: 50%;
+            bottom: 24px;
+            transform: translate(-50%, 20px);
+            background: #ffffff;
+            color: #084c73;
+            padding: 14px 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            font-size: 14px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease, transform 0.25s ease;
+            z-index: 100;
+            max-width: calc(100% - 40px);
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translate(-50%, 0);
+        }
+
+        .toast i { color: #16a34a; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 380px) {
+            .header h1 { font-size: 26px; }
+            .btn { padding: 14px 16px; gap: 12px; font-size: 15px; }
+            .btn-icon { width: 38px; height: 38px; min-width: 38px; font-size: 16px; }
+            .qr-box img { width: 180px; height: 180px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="card-wrapper">
-        <div id="cardInner" class="flip-card-inner">
+    <div class="flip-container">
+        <div id="flipInner" class="flip-inner">
 
             <!-- ============ FRONT ============ -->
-            <div class="card-face card-front">
+            <div class="flip-front">
+                <div class="card">
 
-                <!-- Name block -->
-                <div style="text-align:center; margin-bottom:16px;">
-                    <h1 style="font-family:'Playfair Display',serif; font-size:30px; font-weight:700; margin:0 0 8px; letter-spacing:0.5px; color:#ffffff; line-height:1.15;">
-                        Dr. Colbert Pierre
-                    </h1>
-                    <div style="display:flex; align-items:center; justify-content:center; gap:10px; font-size:11px; font-weight:700; letter-spacing:0.25em; text-transform:uppercase; opacity:0.9;">
-                        <span>Music</span>
-                        <span style="width:5px; height:5px; border-radius:50%; background:#ffffff;"></span>
-                        <span>Art</span>
-                        <span style="width:5px; height:5px; border-radius:50%; background:#ffffff;"></span>
-                        <span>Poetry</span>
+                    <div class="header">
+                        <h1>Dr. Colbert Pierre</h1>
+                        <div class="tagline">
+                            <span>Music</span>
+                            <span class="dot"></span>
+                            <span>Art</span>
+                            <span class="dot"></span>
+                            <span>Poetry</span>
+                        </div>
                     </div>
-                </div>
 
-                <!-- ACTION BUTTONS — fill the card -->
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px;">
-                    <a href="tel:5308404389" class="action-button">
-                        <div class="action-icon-wrapper"><i class="fas fa-phone"></i></div>
-                        <span style="font-size:14px; color:#084c73; letter-spacing:0.03em;">Call</span>
-                    </a>
-                    <a href="sms:5308404389" class="action-button">
-                        <div class="action-icon-wrapper"><i class="fas fa-comment-sms"></i></div>
-                        <span style="font-size:14px; color:#084c73; letter-spacing:0.03em;">Text</span>
-                    </a>
-                    <a href="mailto:colpierre23@yahoo.fr" class="action-button">
-                        <div class="action-icon-wrapper"><i class="fas fa-envelope"></i></div>
-                        <span style="font-size:14px; color:#084c73; letter-spacing:0.03em;">Email</span>
-                    </a>
-                    <a href="https://www.instagram.com/stra.t.o/" target="_blank" rel="noopener" class="action-button">
-                        <div class="action-icon-wrapper"><i class="fab fa-instagram"></i></div>
-                        <span style="font-size:14px; color:#084c73; letter-spacing:0.03em;">Instagram</span>
-                    </a>
-                    <button onclick="shareCard()" class="action-button" style="grid-column: span 2; flex-direction:row; padding:22px; min-height:70px;">
-                        <i class="fas fa-share-nodes" style="font-size:20px; margin-right:12px;"></i>
-                        <span style="font-size:15px; color:#084c73; letter-spacing:0.03em;">Copy &amp; Share Card</span>
-                    </button>
-                </div>
+                    <div class="buttons">
 
-                <!-- QR FLIP BUTTON -->
-                <button onclick="toggleFlip()" class="qr-flip-button">
-                    <i class="fas fa-qrcode" style="font-size:20px;"></i>
-                    <span>Scan QR Code</span>
-                </button>
+                        <!-- Tap to Call -->
+                        <a href="tel:+15308404389" class="btn">
+                            <div class="btn-icon"><i class="fas fa-phone"></i></div>
+                            <span class="btn-label">Tap to Call</span>
+                            <i class="fas fa-chevron-right btn-arrow"></i>
+                        </a>
 
-                <!-- INSTALL SECTION -->
-                <div style="border-top:1px solid rgba(255,255,255,0.3); padding-top:12px; display:flex; flex-direction:column; align-items:center; gap:10px;">
-                    <span style="font-size:10px; text-transform:uppercase; letter-spacing:0.25em; font-weight:800; opacity:0.85;">Install to Device</span>
-                    <div style="display:flex; gap:12px; width:100%;">
-                        <button onclick="showInstallInstructions('iOS')" class="install-btn">
-                            <i class="fab fa-apple"></i> iOS
+                        <!-- Tap to Text -->
+                        <a href="sms:+15308404389" class="btn">
+                            <div class="btn-icon"><i class="fas fa-comment-sms"></i></div>
+                            <span class="btn-label">Tap to Text</span>
+                            <i class="fas fa-chevron-right btn-arrow"></i>
+                        </a>
+
+                        <!-- Tap to Email -->
+                        <a href="mailto:colpierre23@yahoo.fr" class="btn">
+                            <div class="btn-icon"><i class="fas fa-envelope"></i></div>
+                            <span class="btn-label">Tap to Email</span>
+                            <i class="fas fa-chevron-right btn-arrow"></i>
+                        </a>
+
+                        <!-- Tap for Instagram -->
+                        <a href="https://www.instagram.com/stra.t.o/" target="_blank" rel="noopener" class="btn">
+                            <div class="btn-icon"><i class="fab fa-instagram"></i></div>
+                            <span class="btn-label">Tap for Instagram</span>
+                            <i class="fas fa-chevron-right btn-arrow"></i>
+                        </a>
+
+                        <!-- Tap to Save Contact -->
+                        <button onclick="downloadVCard()" class="btn">
+                            <div class="btn-icon"><i class="fas fa-address-card"></i></div>
+                            <span class="btn-label">Tap to Save Contact</span>
+                            <i class="fas fa-chevron-right btn-arrow"></i>
                         </button>
-                        <button onclick="showInstallInstructions('Android')" class="install-btn">
-                            <i class="fab fa-android"></i> Android
+
+                        <!-- Tap to Share -->
+                        <button onclick="shareCard()" class="btn">
+                            <div class="btn-icon"><i class="fas fa-share-nodes"></i></div>
+                            <span class="btn-label">Tap to Share</span>
+                            <i class="fas fa-chevron-right btn-arrow"></i>
                         </button>
+
+                        <!-- Tap to Flip to QR -->
+                        <button onclick="toggleFlip()" class="btn">
+                            <div class="btn-icon"><i class="fas fa-qrcode"></i></div>
+                            <span class="btn-label">Tap for QR Code</span>
+                            <i class="fas fa-chevron-right btn-arrow"></i>
+                        </button>
+
                     </div>
                 </div>
             </div>
 
-            <!-- ============ BACK ============ -->
-            <div class="card-face card-back">
-                <h2 style="font-family:'Playfair Display',serif; font-size:28px; font-weight:700; margin:0 0 12px; color:#ffffff;">Scan to Connect</h2>
-                <p style="font-size:14px; opacity:0.9; margin:0 0 24px; padding:0 20px;">Point your camera at this code to view the full website and portfolio.</p>
+            <!-- ============ BACK (QR) ============ -->
+            <div class="flip-back">
+                <div class="back-title">Scan to Connect</div>
+                <div class="back-sub">Point your camera at the QR code to open the portfolio</div>
 
-                <div class="qr-box" style="margin-bottom:24px;">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://colbertlartiste.taniadomingue.multisiteadmin.com/a/preview"
+                <div class="qr-box">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=https://colbertlartiste.taniadomingue.multisiteadmin.com/a/preview"
                          alt="QR Code">
                 </div>
 
                 <button onclick="toggleFlip()" class="back-btn">
                     <i class="fas fa-arrow-left"></i>
-                    <span>Back to Profile</span>
+                    Back to Card
                 </button>
             </div>
+
         </div>
     </div>
 
     <!-- TOAST -->
-    <div id="toastNotification" style="position:fixed; bottom:24px; left:50%; transform:translateX(-50%); z-index:50; display:none; width:90%; max-width:380px; background:#ffffff; border-radius:16px; box-shadow:0 20px 40px rgba(0,0,0,0.4); overflow:hidden;">
-        <div style="padding:20px; display:flex; flex-direction:column; align-items:center; text-align:center; position:relative;">
-            <button onclick="hideToast()" style="position:absolute; top:12px; right:12px; background:none; border:none; color:#999; cursor:pointer; font-size:16px;">
-                <i class="fas fa-times"></i>
-            </button>
-            <div id="toastIcon" style="width:48px; height:48px; border-radius:50%; margin-bottom:12px; display:flex; align-items:center; justify-content:center; font-size:22px;"></div>
-            <h3 id="toastTitle" style="color:#111; font-weight:700; font-size:18px; margin:0 0 8px;"></h3>
-            <p id="toastMessage" style="color:#666; font-size:14px; line-height:1.5; margin:0 0 16px;"></p>
-            <button onclick="hideToast()" style="width:100%; background:#084c73; color:#ffffff; font-weight:700; padding:10px; border-radius:12px; border:none; cursor:pointer;">
-                Understood
-            </button>
-        </div>
+    <div id="toast" class="toast">
+        <i class="fas fa-check"></i>
+        <span id="toastText">Done</span>
     </div>
 
     <script>
-        const cardInner = document.getElementById("cardInner");
-        const toastNotification = document.getElementById("toastNotification");
-        const toastTitle = document.getElementById("toastTitle");
-        const toastMessage = document.getElementById("toastMessage");
-        const toastIcon = document.getElementById("toastIcon");
+        const SHARE_URL = 'https://colbertlartiste.taniadomingue.multisiteadmin.com/a/preview';
 
+        /* ===== Flip ===== */
         function toggleFlip() {
-            cardInner.classList.toggle("is-flipped");
+            document.getElementById('flipInner').classList.toggle('flipped');
         }
 
-        function showToast(title, message, iconHTML, iconBgClass, iconTextClass) {
-            toastTitle.textContent = title;
-            toastMessage.innerHTML = message;
-            toastIcon.innerHTML = iconHTML;
-            toastIcon.style.background = iconBgClass.includes('green') ? '#dcfce7' : iconBgClass.includes('gray') ? '#f3f4f6' : '#e6f0f6';
-            toastIcon.style.color = iconTextClass.includes('green') ? '#16a34a' : iconTextClass.includes('gray') ? '#1f2937' : '#084c73';
-            toastNotification.style.display = 'flex';
-            toastNotification.classList.add('toast-visible');
+        /* ===== Save Contact (vCard) — iOS & Android compatible ===== */
+        function downloadVCard() {
+            const vcard = [
+                'BEGIN:VCARD',
+                'VERSION:3.0',
+                'N:Pierre;Colbert;;Dr.;',
+                'FN:Dr. Colbert Pierre',
+                'TITLE:Musician, Artist, Poet',
+                'TEL;TYPE=CELL:+15308404389',
+                'EMAIL;TYPE=INTERNET:colpierre23@yahoo.fr',
+                'URL:' + SHARE_URL,
+                'X-SOCIALPROFILE;TYPE=instagram:https://www.instagram.com/stra.t.o/',
+                'NOTE:Music - Art - Poetry',
+                'END:VCARD'
+            ].join('\r\n');
+
+            const blob = new Blob([vcard], { type: 'text/vcard;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'Dr-Colbert-Pierre.vcf';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            showToast('Contact card ready to save');
         }
 
-        function hideToast() {
-            toastNotification.classList.remove('toast-visible');
-            setTimeout(() => toastNotification.style.display = 'none', 300);
-        }
-
+        /* ===== Share ===== */
         async function shareCard() {
-            const shareUrl = 'https://colbertlartiste.taniadomingue.multisiteadmin.com/a/preview';
             try {
                 if (navigator.share) {
                     await navigator.share({
-                        title: 'Dr. Colbert Pierre | Music, Art, Poetry',
-                        text: 'View the portfolio and contact information for Dr. Colbert Pierre.',
-                        url: shareUrl
+                        title: 'Dr. Colbert Pierre',
+                        text: 'Music · Art · Poetry',
+                        url: SHARE_URL
                     });
                 } else {
-                    const textArea = document.createElement("textarea");
-                    textArea.value = shareUrl;
-                    document.body.appendChild(textArea);
-                    textArea.select();
-                    document.execCommand('copy');
-                    document.body.removeChild(textArea);
-                    showToast('Link Copied!', 'The website link has been copied to your clipboard.', '<i class="fas fa-check"></i>', 'bg-green-100', 'text-green-600');
+                    await copyToClipboard(SHARE_URL);
+                    showToast('Link copied to clipboard');
                 }
             } catch (err) {
-                console.log('Share error or cancelled:', err);
+                console.log('Share cancelled or failed', err);
             }
         }
 
-        function showInstallInstructions(os) {
-            if (os === 'iOS') {
-                showToast(
-                    'Install on iPhone / iPad',
-                    'Tap the <strong>Share</strong> icon in Safari, then scroll down and tap <strong>"Add to Home Screen"</strong>.',
-                    '<i class="fab fa-apple"></i>',
-                    'bg-gray-100',
-                    'text-gray-800'
-                );
-            } else {
-                showToast(
-                    'Install on Android',
-                    'Tap the <strong>Menu</strong> icon in your browser, then tap <strong>"Add to Home screen"</strong>.',
-                    '<i class="fab fa-android"></i>',
-                    'bg-blue-50',
-                    'text-brand-primary'
-                );
-            }
+        /* ===== Clipboard ===== */
+        function copyToClipboard(text) {
+            return new Promise((resolve, reject) => {
+                if (navigator.clipboard) {
+                    navigator.clipboard.writeText(text).then(resolve).catch(() => {
+                        fallbackCopy(text, resolve, reject);
+                    });
+                } else {
+                    fallbackCopy(text, resolve, reject);
+                }
+            });
+        }
+
+        function fallbackCopy(text, resolve, reject) {
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.position = 'fixed';
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.select();
+            try { document.execCommand('copy'); resolve(); }
+            catch (e) { reject(e); }
+            document.body.removeChild(ta);
+        }
+
+        /* ===== Toast ===== */
+        let toastTimer;
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastText').textContent = message;
+            toast.classList.add('show');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
         }
     </script>
+
 </body>
 </html>
