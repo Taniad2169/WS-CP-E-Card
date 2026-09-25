@@ -25,16 +25,25 @@
             padding: 0;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             -webkit-tap-highlight-color: transparent;
+            /* STOP ANDROID FROM AUTO-ZOOMING TEXT */
+            -webkit-text-size-adjust: 100%;
+            -moz-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
+
+        html, body {
+            background-color: var(--bg-blue);
+            color: var(--text-dark);
+            width: 100%;
+            min-height: 100%;
+            overflow-x: hidden;
         }
 
         body {
-            background-color: var(--bg-blue);
-            color: var(--text-dark);
             display: flex;
             justify-content: center;
+            align-items: flex-start; /* Prevents stretching */
             padding: 20px 15px;
-            min-height: 100vh;
-            overflow-x: hidden;
         }
 
         /* The Main Container */
@@ -44,7 +53,8 @@
             text-align: center;
             display: flex;
             flex-direction: column;
-            gap: 12px; /* Space between every element */
+            gap: 12px;
+            align-items: stretch;
         }
 
         /* Header styles */
@@ -52,6 +62,7 @@
             font-size: 28px;
             font-weight: 800;
             margin-bottom: 5px;
+            line-height: 1.2;
         }
 
         .tagline {
@@ -68,14 +79,18 @@
             align-self: center;
         }
 
-        /* Buttons - Fixed height, NO stretching */
+        /* Buttons - LOCKED SIZE, NO STRETCHING */
         .btn {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
             width: 100%;
-            padding: 16px;
+            max-width: 100%;
+            /* Forces the button to be exactly this tall */
+            min-height: 56px;
+            height: 56px;
+            padding: 0 16px;
             border-radius: 12px;
             font-size: 16px;
             font-weight: 700;
@@ -83,13 +98,20 @@
             cursor: pointer;
             box-shadow: 0 4px 6px rgba(0,0,0,0.15);
             text-decoration: none;
-            /* Prevents Android from stretching into giant boxes */
+            /* CRITICAL: Stops Android from stretching */
             flex-grow: 0; 
             flex-shrink: 0;
+            flex-basis: auto;
+            /* Stop Android text zoom */
+            -webkit-text-size-adjust: none;
         }
 
         .btn:active {
             transform: scale(0.98);
+        }
+
+        .btn i {
+            font-size: 18px;
         }
 
         .btn-dark {
@@ -167,6 +189,8 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            flex-grow: 0;
+            flex-shrink: 0;
         }
 
         .qr-title {
@@ -200,13 +224,13 @@
             <div class="tagline">Artiste | Poet | Music</div>
         </div>
 
-        <!-- 1. Call Direct -->
-        <a href="tel:5308404389" class="btn btn-dark">
+        <!-- 1. Call Direct (Added +1 country code) -->
+        <a href="tel:+15308404389" class="btn btn-dark">
             <i class="fas fa-phone-alt"></i> Call Direct
         </a>
 
-        <!-- 2. Send SMS -->
-        <a href="sms:5308404389" class="btn btn-light">
+        <!-- 2. Send SMS (Added +1 country code) -->
+        <a href="sms:+15308404389" class="btn btn-light">
             <i class="fas fa-comment-alt"></i> Send SMS
         </a>
 
@@ -232,7 +256,7 @@
             <i class="fas fa-user-plus"></i> Save Contact
         </button>
 
-        <!-- 6. Show QR Code Button (Scrolls to bottom) -->
+        <!-- 6. Show QR Code Button -->
         <button onclick="scrollToQR()" class="btn btn-light">
             <i class="fas fa-qrcode"></i> Show QR Code
         </button>
@@ -258,7 +282,6 @@
         // --- 2. Generate the QR Code ---
         window.addEventListener('load', () => {
             new QRCode(document.getElementById("qrcode"), {
-                // POINTING TO YOUR CUSTOM LINK
                 text: "https://colbertlartiste.taniadomingue.multisiteadmin.com/a/preview", 
                 width: 180,
                 height: 180,
@@ -286,7 +309,8 @@
         // --- 5. Save Contact (vCard) Function ---
         function downloadVCard() {
             const name = "Dr. Colbert Pierre";
-            const phone = "5308404389";
+            // Using +1 country code so Android & iPhone recognize it as a full US number
+            const phone = "+15308404389";
             const email = "colpierre23@yahoo.fr";
 
             const vcardData = `BEGIN:VCARD
