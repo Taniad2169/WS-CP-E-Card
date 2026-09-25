@@ -1,33 +1,25 @@
 {
   "name": "Dr. Colbert Pierre - E-Card",
-  "short_name": "Dr. Colbert",
-  "description": "Digital business card for Dr. Colbert Pierre - Artist | Poet | Music",
+  "short_name": "Colbert Pierre",
+  "description": "Digital business card for Dr. Colbert Pierre - Artiste, Poet, Musician",
   "start_url": "./index.html",
-  "display": "standalone",
-  "orientation": "portrait",
-  "background_color": "#66c8f2",
-  "theme_color": "#0d8bbd",
   "scope": "./",
-  "lang": "en",
-  "dir": "ltr",
+  "id": "./index.html",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#68c6e8",
+  "orientation": "portrait",
   "icons": [
-    {
-      "src": "icon-72x72.png",
-      "sizes": "72x72",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "icon-198x198.png",
-      "sizes": "198x198",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "icon-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    }
+    { "src": "icon-72.png", "sizes": "72x72", "type": "image/png", "purpose": "any" },
+    { "src": "icon-96.png", "sizes": "96x96", "type": "image/png", "purpose": "any" },
+    { "src": "icon-128.png", "sizes": "128x128", "type": "image/png", "purpose": "any" },
+    { "src": "icon-144.png", "sizes": "144x144", "type": "image/png", "purpose": "any" },
+    { "src": "icon-152.png", "sizes": "152x152", "type": "image/png", "purpose": "any" },
+    { "src": "icon-180.png", "sizes": "180x180", "type": "image/png", "purpose": "any" },
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "icon-384.png", "sizes": "384x384", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ]
 }
