@@ -2,13 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#5BC0DE">
     <title>Dr. Colbert Pierre</title>
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- QR Code Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
-        /* Reset */
+        :root {
+            --bg-blue: #5BC0DE;
+            --dark-btn: #1A2B3C;
+            --light-btn: #FFFFFF;
+            --text-dark: #1A2B3C;
+            --text-light: #FFFFFF;
+            --card-bg: #8ED2E6;
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -17,44 +27,48 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* Basic blue background, no stretching */
         body {
-            background-color: #5BC0DE;
-            color: #1A2B3C;
+            background-color: var(--bg-blue);
+            color: var(--text-dark);
             display: flex;
             justify-content: center;
             padding: 20px 15px;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        /* Fixed-width card, no stretching */
+        /* The Main Container */
         .container {
             width: 100%;
             max-width: 400px;
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 12px; /* Space between every element */
         }
 
         /* Header styles */
         h1 {
             font-size: 28px;
             font-weight: 800;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
         }
 
         .tagline {
             display: inline-block;
-            background-color: #1A2B3C;
-            color: #FFFFFF;
+            background-color: var(--dark-btn);
+            color: var(--text-light);
             padding: 6px 16px;
             border-radius: 20px;
             font-size: 12px;
             font-weight: 700;
             letter-spacing: 1px;
             text-transform: uppercase;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            align-self: center;
         }
 
-        /* --- BUTTONS - FIXED SIZE, NO STRETCHING --- */
+        /* Buttons - Fixed height, NO stretching */
         .btn {
             display: flex;
             align-items: center;
@@ -67,9 +81,11 @@
             font-weight: 700;
             border: none;
             cursor: pointer;
-            margin-bottom: 12px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.15);
             text-decoration: none;
+            /* Prevents Android from stretching into giant boxes */
+            flex-grow: 0; 
+            flex-shrink: 0;
         }
 
         .btn:active {
@@ -77,41 +93,32 @@
         }
 
         .btn-dark {
-            background-color: #1A2B3C;
-            color: #FFFFFF;
+            background-color: var(--dark-btn);
+            color: var(--text-light);
         }
 
         .btn-light {
-            background-color: #FFFFFF;
-            color: #1A2B3C;
+            background-color: var(--light-btn);
+            color: var(--text-dark);
         }
 
-        /* Row for two buttons side-by-side */
-        .btn-row {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 12px;
-        }
-
-        .btn-row .btn {
-            margin-bottom: 0;
-        }
-
-        /* --- SHARE INFO BOX - FIXED SIZE --- */
+        /* Info Box */
         .info-box {
             display: flex;
             align-items: center;
             gap: 15px;
-            background-color: #8ED2E6;
+            background-color: var(--card-bg);
             border-radius: 12px;
             padding: 16px;
-            margin-bottom: 12px;
             text-align: left;
+            width: 100%;
+            flex-grow: 0; 
+            flex-shrink: 0;
         }
 
         .icon-circle {
-            background-color: #1A2B3C;
-            color: #FFFFFF;
+            background-color: var(--dark-btn);
+            color: var(--text-light);
             width: 45px;
             height: 45px;
             border-radius: 50%;
@@ -140,7 +147,7 @@
         .info-value {
             font-size: 16px;
             font-weight: 800;
-            color: #1A2B3C;
+            color: var(--text-dark);
         }
 
         .copy-icon {
@@ -149,31 +156,66 @@
             cursor: pointer;
             padding: 5px;
         }
+
+        /* QR Code Section at the Footer */
+        .qr-section {
+            margin-top: 20px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .qr-title {
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 5px;
+            color: var(--dark-btn);
+        }
+
+        .qr-subtitle {
+            font-size: 13px;
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        #qrcode {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
     </style>
 </head>
 <body>
 
     <div class="container">
         <!-- Header -->
-        <h1>Dr. Colbert Pierre</h1>
-        <div class="tagline">Artiste | Poet | Music</div>
-
-        <!-- Call & SMS Buttons -->
-        <div class="btn-row">
-            <a href="tel:5308404389" class="btn btn-dark">
-                <i class="fas fa-phone-alt"></i> Call Direct
-            </a>
-            <a href="sms:5308404389" class="btn btn-light">
-                <i class="fas fa-comment-alt"></i> Send SMS
-            </a>
+        <div>
+            <h1>Dr. Colbert Pierre</h1>
+            <div class="tagline">Artiste | Poet | Music</div>
         </div>
 
-        <!-- Instagram Button -->
+        <!-- 1. Call Direct -->
+        <a href="tel:5308404389" class="btn btn-dark">
+            <i class="fas fa-phone-alt"></i> Call Direct
+        </a>
+
+        <!-- 2. Send SMS -->
+        <a href="sms:5308404389" class="btn btn-light">
+            <i class="fas fa-comment-alt"></i> Send SMS
+        </a>
+
+        <!-- 3. Instagram -->
         <a href="https://instagram.com" target="_blank" class="btn btn-dark">
             <i class="fab fa-instagram"></i> Instagram
         </a>
 
-        <!-- Share Info Box -->
+        <!-- 4. Share Info Box -->
         <div class="info-box">
             <div class="icon-circle">
                 <i class="fas fa-share-alt"></i>
@@ -185,14 +227,21 @@
             <i class="far fa-copy copy-icon" onclick="copyToClipboard(window.location.href)"></i>
         </div>
 
-        <!-- Save Contact & QR Code -->
-        <div class="btn-row">
-            <button onclick="downloadVCard()" class="btn btn-dark">
-                <i class="fas fa-user-plus"></i> Save Contact
-            </button>
-            <button onclick="alert('QR Code feature would generate a QR code for this page link.')" class="btn btn-light">
-                <i class="fas fa-qrcode"></i> QR Code
-            </button>
+        <!-- 5. Save Contact -->
+        <button onclick="downloadVCard()" class="btn btn-dark">
+            <i class="fas fa-user-plus"></i> Save Contact
+        </button>
+
+        <!-- 6. Show QR Code Button (Scrolls to bottom) -->
+        <button onclick="scrollToQR()" class="btn btn-light">
+            <i class="fas fa-qrcode"></i> Show QR Code
+        </button>
+
+        <!-- 7. QR Code Section (Footer) -->
+        <div class="qr-section" id="qrFooter">
+            <div class="qr-title">Scan to Connect</div>
+            <div class="qr-subtitle">Point your camera here</div>
+            <div id="qrcode"></div>
         </div>
     </div>
 
@@ -201,16 +250,31 @@
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('serviceworker.js')
-                    .then(registration => {
-                        console.log('ServiceWorker registration successful');
-                    })
-                    .catch(err => {
-                        console.log('ServiceWorker registration failed: ', err);
-                    });
+                    .then(registration => { console.log('ServiceWorker registered'); })
+                    .catch(err => { console.log('ServiceWorker registration failed: ', err); });
             });
         }
 
-        // --- 2. Copy to Clipboard Function ---
+        // --- 2. Generate the QR Code ---
+        window.addEventListener('load', () => {
+            new QRCode(document.getElementById("qrcode"), {
+                // POINTING TO YOUR CUSTOM LINK
+                text: "https://colbertlartiste.taniadomingue.multisiteadmin.com/a/preview", 
+                width: 180,
+                height: 180,
+                colorDark : "#1A2B3C",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        });
+
+        // --- 3. Scroll to QR Code Function ---
+        function scrollToQR() {
+            const qrSection = document.getElementById('qrFooter');
+            qrSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // --- 4. Copy to Clipboard Function ---
         function copyToClipboard(text) {
             navigator.clipboard.writeText(text).then(() => {
                 alert('Link copied to clipboard!');
@@ -219,7 +283,7 @@
             });
         }
 
-        // --- 3. Save Contact (vCard) Function ---
+        // --- 5. Save Contact (vCard) Function ---
         function downloadVCard() {
             const name = "Dr. Colbert Pierre";
             const phone = "5308404389";
