@@ -187,12 +187,12 @@
             <div class="absolute inset-0 w-full h-full backface-hidden rotate-y-180 bg-white rounded-3xl overflow-hidden flex flex-col justify-between">
                 
                 <div class="bg-primary h-20 w-full flex items-center justify-center shadow-md">
-                    <h2 class="text-white font-bold tracking-wider uppercase text-sm"><i class="fa-brands fa-instagram mr-2"></i> Instagram QR</h2>
+                    <h2 class="text-white font-bold tracking-wider uppercase text-sm"><i class="fa-solid fa-globe mr-2"></i> Website Preview QR</h2>
                 </div>
 
                 <div class="flex flex-col items-center justify-center flex-1 px-6">
-                    <p class="text-gray-800 font-bold text-xl mb-1">@stra.t.o</p>
-                    <p class="text-sm text-gray-500 mb-6 text-center">Scan to discover my Art, Poetry, and Music.</p>
+                    <p class="text-gray-800 font-bold text-xl mb-1">Colbert L’Artiste</p>
+                    <p class="text-sm text-gray-500 mb-6 text-center">Scan to visit my website preview.</p>
                     
                     <div class="p-4 bg-bgLight rounded-2xl shadow-inner border border-primary/30 transform transition-transform hover:scale-105">
                         <div id="qrcode" class="qr-container bg-white p-3 rounded-xl shadow-sm"></div>
@@ -284,8 +284,8 @@ END:VCARD`;
         }
 
         window.onload = function() {
-            // Generating the QR code specifically for the Instagram link
-            const qrData = "https://www.instagram.com/stra.t.o/";
+            // QR points to the website preview; replace this URL when the site goes live.
+            const qrData = "https://colbertlartiste.taniadomingue.multisiteadmin.com/a/preview";
             const qrContainer = document.getElementById("qrcode");
             
             new QRCode(qrContainer, {
