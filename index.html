@@ -2,344 +2,337 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Dr. Colbert Pierre | Music · Art · Poetry</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dr. Colbert Pierre - E-Card</title>
+    
+    <!-- Import Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Import Google Fonts for elegant typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Import FontAwesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        html {
-            background-color: #084c73;
-        }
-
         body {
-            margin: 0;
-            padding: 24px 18px;
+            font-family: 'Poppins', sans-serif;
+            background-color: #0f172a; /* Slate 900 */
+            background-image: radial-gradient(circle at top right, #1e293b, #020617);
             min-height: 100vh;
-            background-color: #084c73;
-            font-family: 'Inter', sans-serif;
-            color: #ffffff;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        /* Simple block — no flex, no 3D, no collapsing */
-        .wrapper {
-            width: 100%;
-            max-width: 460px;
-            margin: 0 auto;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 28px;
-            padding-bottom: 22px;
-            border-bottom: 1px solid rgba(255,255,255,0.25);
-        }
-
-        .header h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 32px;
-            font-weight: 700;
-            line-height: 1.15;
-            margin-bottom: 10px;
-        }
-
-        .tagline {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.28em;
-            text-transform: uppercase;
-            opacity: 0.85;
+            margin: 0;
+            padding: 20px;
         }
 
-        .dot {
-            width: 5px;
-            height: 5px;
-            border-radius: 50%;
-            background: #ffffff;
+        .title-font {
+            font-family: 'Playfair Display', serif;
         }
 
-        .buttons {
+        /* 3D Flip Card Styles */
+        .card-container {
+            perspective: 1000px;
+            width: 100%;
+            max-width: 380px; /* Standard phone width */
+            height: 720px; /* Increased to fit new buttons comfortably */
+        }
+
+        .card-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Springy flip */
+            transform-style: preserve-3d;
+        }
+
+        /* Toggled via JS */
+        .card-inner.is-flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .btn {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            background-color: #ffffff;
-            color: #084c73;
-            text-decoration: none;
-            border: 2px solid #ffffff;
-            border-radius: 14px;
-            padding: 16px 20px;
-            cursor: pointer;
-            font-family: inherit;
-            font-weight: 700;
-            font-size: 16px;
-            box-shadow: 0 6px 16px rgba(0,0,0,0.35);
-            text-align: left;
-            width: 100%;
-            min-height: 64px;
-            transition: transform 0.15s ease;
+        .card-front {
+            background-color: #68c6e8;
         }
 
-        .btn:active {
-            transform: scale(0.98);
-        }
-
-        .btn-icon {
-            width: 42px;
-            height: 42px;
-            min-width: 42px;
-            border-radius: 10px;
-            background-color: #e6f0f6;
-            color: #084c73;
-            display: flex;
+        .card-back {
+            transform: rotateY(180deg);
             align-items: center;
             justify-content: center;
-            font-size: 18px;
+            background-color: #68c6e8;
         }
 
-        .btn-label {
-            flex: 1;
-            font-size: 16px;
-            font-weight: 700;
-            color: #084c73;
+        /* Subtle gold accents */
+        .accent-gold {
+            color: #d4af37;
+        }
+        .bg-accent-gold {
+            background-color: #d4af37;
+        }
+        .border-accent-gold {
+            border-color: #d4af37;
+        }
+        .hover-gold:hover {
+            color: #111827;
+            background-color: #d4af37;
+            border-color: #d4af37;
         }
 
-        .btn-arrow {
-            font-size: 13px;
-            opacity: 0.4;
-            color: #084c73;
+        /* Custom Yellow Text */
+        .text-custom-yellow {
+            color: #f7ff08;
         }
 
-        /* QR section */
-        .qr-section {
-            margin-top: 30px;
-            text-align: center;
+        /* Glowing effect */
+        .glow-effect {
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(212,175,55,0.05) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
         }
 
-        .qr-title {
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.25em;
-            text-transform: uppercase;
-            opacity: 0.85;
-            margin-bottom: 14px;
-        }
-
-        .qr-box {
-            display: inline-block;
-            background: #ffffff;
-            padding: 14px;
-            border-radius: 14px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.35);
-        }
-
-        .qr-box img {
-            display: block;
-            width: 200px;
-            height: 200px;
-        }
-
+        /* Toast Notification */
         .toast {
             position: fixed;
+            bottom: 20px;
             left: 50%;
-            bottom: 24px;
-            transform: translate(-50%, 20px);
-            background: #ffffff;
-            color: #084c73;
-            padding: 14px 20px;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            transform: translateX(-50%) translateY(100px);
+            background-color: #1f2937;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 9999px;
             font-size: 14px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            font-weight: 500;
             opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.25s ease, transform 0.25s ease;
-            z-index: 100;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 50;
+            text-align: center;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+            border: 1px solid #d4af37;
+            width: max-content;
+            max-width: 90vw;
         }
 
         .toast.show {
+            transform: translateX(-50%) translateY(0);
             opacity: 1;
-            transform: translate(-50%, 0);
-        }
-
-        .toast i { color: #16a34a; }
-
-        @media (max-width: 380px) {
-            body { padding: 18px 14px; }
-            .header h1 { font-size: 26px; }
-            .btn { padding: 14px 16px; min-height: 58px; font-size: 15px; gap: 12px; }
-            .btn-icon { width: 38px; height: 38px; min-width: 38px; font-size: 16px; }
-            .qr-box img { width: 170px; height: 170px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="wrapper">
+    <!-- Toast Notification Element -->
+    <div id="toast" class="toast">Message</div>
 
-        <div class="header">
-            <h1>Dr. Colbert Pierre</h1>
-            <div class="tagline">
-                <span>Music</span>
-                <span class="dot"></span>
-                <span>Art</span>
-                <span class="dot"></span>
-                <span>Poetry</span>
+    <div class="card-container group">
+        <div class="card-inner" id="ecard">
+            
+            <!-- FRONT OF CARD -->
+            <div class="card-face card-front p-6 relative">
+                <div class="glow-effect"></div>
+                
+                <div class="relative z-10 flex flex-col h-full">
+                    <!-- Top section: Name and Title -->
+                    <div class="text-center mt-4 mb-6">
+                        <div class="w-24 h-24 mx-auto bg-gray-800 rounded-full border-2 border-accent-gold flex items-center justify-center mb-4 shadow-[0_0_15px_rgba(212,175,55,0.3)]">
+                            <i class="fa-solid fa-music text-3xl accent-gold"></i>
+                        </div>
+                        <h1 class="title-font text-3xl text-gray-900 font-bold tracking-wide mb-2">
+                            Dr. Colbert Pierre
+                        </h1>
+                        <h2 class="text-sm uppercase tracking-[0.2em] text-custom-yellow font-bold drop-shadow-md bg-gray-900/30 inline-block px-3 py-1 rounded-full">
+                            Artiste <span class="text-gray-200 mx-1">|</span> Poet <span class="text-gray-200 mx-1">|</span> Music
+                        </h2>
+                    </div>
+
+                    <!-- Middle section: Action Buttons -->
+                    <div class="flex-grow flex flex-col gap-3 justify-center mt-2">
+                        
+                        <!-- Click to Call -->
+                        <a href="tel:5308404389" class="flex items-center w-full px-5 py-2.5 rounded-xl border border-gray-600 bg-gray-900/60 text-white transition-all duration-300 hover-gold group/btn shadow-sm backdrop-blur-sm">
+                            <i class="fa-solid fa-phone w-6 text-center accent-gold group-hover/btn:text-gray-900 transition-colors"></i>
+                            <span class="ml-4 font-medium">Click to Call</span>
+                        </a>
+
+                        <!-- Click to Text (SMS) -->
+                        <a href="sms:5308404389" class="flex items-center w-full px-5 py-2.5 rounded-xl border border-gray-600 bg-gray-900/60 text-white transition-all duration-300 hover-gold group/btn shadow-sm backdrop-blur-sm">
+                            <i class="fa-solid fa-comment-sms w-6 text-center accent-gold group-hover/btn:text-gray-900 transition-colors"></i>
+                            <span class="ml-4 font-medium">Click to Text</span>
+                        </a>
+
+                        <!-- Save Contact -->
+                        <button onclick="downloadVCard()" class="flex items-center w-full px-5 py-2.5 rounded-xl border border-gray-600 bg-gray-900/60 text-white transition-all duration-300 hover-gold group/btn shadow-sm backdrop-blur-sm">
+                            <i class="fa-solid fa-user-plus w-6 text-center accent-gold group-hover/btn:text-gray-900 transition-colors"></i>
+                            <span class="ml-4 font-medium">Save to Contacts</span>
+                        </button>
+
+                        <!-- Instagram -->
+                        <a href="https://www.instagram.com/stra.t.o/" target="_blank" class="flex items-center w-full px-5 py-2.5 rounded-xl border border-gray-600 bg-gray-900/60 text-white transition-all duration-300 hover-gold group/btn shadow-sm backdrop-blur-sm">
+                            <i class="fa-brands fa-instagram w-6 text-center accent-gold group-hover/btn:text-gray-900 transition-colors"></i>
+                            <span class="ml-4 font-medium">Instagram</span>
+                        </a>
+
+                        <!-- Copy to Share -->
+                        <button onclick="shareCard()" class="flex items-center w-full px-5 py-2.5 rounded-xl border border-gray-600 bg-gray-900/60 text-white transition-all duration-300 hover-gold group/btn shadow-sm backdrop-blur-sm">
+                            <i class="fa-solid fa-share-nodes w-6 text-center accent-gold group-hover/btn:text-gray-900 transition-colors"></i>
+                            <span class="ml-4 font-medium">Share Card</span>
+                        </button>
+
+                        <!-- Install App -->
+                        <button onclick="promptInstall()" class="flex items-center w-full px-5 py-2.5 rounded-xl border border-gray-600 bg-gray-900/60 text-white transition-all duration-300 hover-gold group/btn shadow-sm backdrop-blur-sm">
+                            <i class="fa-solid fa-download w-6 text-center accent-gold group-hover/btn:text-gray-900 transition-colors"></i>
+                            <span class="ml-4 font-medium">Install App</span>
+                        </button>
+                    </div>
+
+                    <!-- Bottom section: Flip to QR -->
+                    <div class="mt-auto pt-6 pb-2 text-center">
+                        <button onclick="toggleCard()" class="text-gray-800 hover:text-black transition-colors flex flex-col items-center mx-auto gap-2 font-semibold">
+                            <i class="fa-solid fa-qrcode text-xl"></i>
+                            <span class="text-xs uppercase tracking-wider">Tap for Website QR</span>
+                        </button>
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <div class="buttons">
+            <!-- BACK OF CARD -->
+            <div class="card-face card-back p-6">
+                <div class="glow-effect"></div>
+                
+                <div class="relative z-10 flex flex-col items-center justify-center h-full w-full text-center">
 
-            <a href="tel:+15308404389" class="btn">
-                <div class="btn-icon"><i class="fas fa-phone"></i></div>
-                <span class="btn-label">Tap to Call</span>
-                <i class="fas fa-chevron-right btn-arrow"></i>
-            </a>
+                    <!-- QR Code (Generated via Google/QRServer API) -->
+                    <div class="p-4 bg-white rounded-2xl shadow-xl mb-8 mt-auto">
+                        <img 
+                            src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https%3A%2F%2Fcolbertlartiste.taniadomingue.multisiteadmin.com%2Fa%2Fpreview&margin=0" 
+                            alt="Website QR Code" 
+                            class="w-56 h-56 block"
+                        >
+                    </div>
 
-            <a href="sms:+15308404389" class="btn">
-                <div class="btn-icon"><i class="fas fa-comment-sms"></i></div>
-                <span class="btn-label">Tap to Text</span>
-                <i class="fas fa-chevron-right btn-arrow"></i>
-            </a>
+                    <p class="text-xs text-gray-800 font-bold mb-auto bg-white/40 px-3 py-1 rounded-lg border border-white/50">colbertlartiste.taniadomingue.multisiteadmin.com</p>
 
-            <a href="mailto:colpierre23@yahoo.fr" class="btn">
-                <div class="btn-icon"><i class="fas fa-envelope"></i></div>
-                <span class="btn-label">Tap to Email</span>
-                <i class="fas fa-chevron-right btn-arrow"></i>
-            </a>
-
-            <a href="https://www.instagram.com/stra.t.o/" target="_blank" rel="noopener" class="btn">
-                <div class="btn-icon"><i class="fab fa-instagram"></i></div>
-                <span class="btn-label">Tap for Instagram</span>
-                <i class="fas fa-chevron-right btn-arrow"></i>
-            </a>
-
-            <button onclick="downloadVCard()" class="btn">
-                <div class="btn-icon"><i class="fas fa-address-card"></i></div>
-                <span class="btn-label">Tap to Save Contact</span>
-                <i class="fas fa-chevron-right btn-arrow"></i>
-            </button>
-
-            <button onclick="shareCard()" class="btn">
-                <div class="btn-icon"><i class="fas fa-share-nodes"></i></div>
-                <span class="btn-label">Tap to Share</span>
-                <i class="fas fa-chevron-right btn-arrow"></i>
-            </button>
-
-        </div>
-
-        <div class="qr-section">
-            <div class="qr-title">Scan to Connect</div>
-            <div class="qr-box">
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=https://colbertlartiste.taniadomingue.multisiteadmin.com/a/preview"
-                     alt="QR Code">
+                    <!-- Flip Back Button -->
+                    <div class="mt-auto w-full pb-2">
+                        <button onclick="toggleCard()" class="flex items-center justify-center w-full px-6 py-3 rounded-xl border border-gray-600 bg-gray-900/60 text-white transition-all duration-300 hover-gold group/btn shadow-sm font-medium tracking-wide backdrop-blur-sm">
+                            <i class="fa-solid fa-arrow-rotate-left mr-2 accent-gold group-hover/btn:text-gray-900 transition-colors"></i> Back to Card
+                        </button>
+                    </div>
+                </div>
             </div>
+
         </div>
-
-    </div>
-
-    <div id="toast" class="toast">
-        <i class="fas fa-check"></i>
-        <span id="toastText">Done</span>
     </div>
 
     <script>
-        const SHARE_URL = 'https://colbertlartiste.taniadomingue.multisiteadmin.com/a/preview';
-
-        function downloadVCard() {
-            const vcard = [
-                'BEGIN:VCARD',
-                'VERSION:3.0',
-                'N:Pierre;Colbert;;Dr.;',
-                'FN:Dr. Colbert Pierre',
-                'TITLE:Musician, Artist, Poet',
-                'TEL;TYPE=CELL:+15308404389',
-                'EMAIL;TYPE=INTERNET:colpierre23@yahoo.fr',
-                'URL:' + SHARE_URL,
-                'X-SOCIALPROFILE;TYPE=instagram:https://www.instagram.com/stra.t.o/',
-                'NOTE:Music - Art - Poetry',
-                'END:VCARD'
-            ].join('\r\n');
-
-            const blob = new Blob([vcard], { type: 'text/vcard;charset=utf-8' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'Dr-Colbert-Pierre.vcf';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-
-            showToast('Contact card ready to save');
+        /**
+         * Toggles the CSS class to flip the 3D card front and back.
+         */
+        function toggleCard() {
+            const card = document.getElementById('ecard');
+            card.classList.toggle('is-flipped');
         }
 
-        async function shareCard() {
-            try {
-                if (navigator.share) {
-                    await navigator.share({
-                        title: 'Dr. Colbert Pierre',
-                        text: 'Music · Art · Poetry',
-                        url: SHARE_URL
-                    });
-                } else {
-                    await copyToClipboard(SHARE_URL);
-                    showToast('Link copied to clipboard');
+        /**
+         * Generates a .vcf file string dynamically and triggers a download.
+         * The email and phone are hidden in the UI but saved perfectly here.
+         */
+        function downloadVCard() {
+            // vCard format 3.0
+            const vCardData = `BEGIN:VCARD
+VERSION:3.0
+N:Pierre;Colbert;;Dr.;
+FN:Dr. Colbert Pierre
+ORG:Artiste | Poet | Music
+TITLE:Artiste | Poet | Music
+TEL;TYPE=CELL,VOICE:5308404389
+EMAIL;TYPE=PREF,INTERNET:colpierre23@yahoo.fr
+URL:https://colbertlartiste.taniadomingue.multisiteadmin.com/a/preview
+URL:https://www.instagram.com/stra.t.o/
+END:VCARD`;
+
+            // Create a Blob containing the vCard data
+            const blob = new Blob([vCardData], { type: 'text/vcard;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            
+            // Create a temporary anchor element to trigger the download
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'Dr_Colbert_Pierre.vcf'); // Name of the downloaded file
+            
+            // Append to body, click, and clean up
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            // Clean up the object URL to free memory
+            URL.revokeObjectURL(url);
+        }
+
+        /**
+         * Shows a temporary toast notification
+         */
+        function showNotification(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        /**
+         * Copies the current URL to the clipboard or uses Web Share API if on mobile
+         */
+        function shareCard() {
+            const url = window.location.href;
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Dr. Colbert Pierre - E-Card',
+                    url: url
+                }).catch(console.error);
+            } else {
+                // Fallback for desktop/iframes
+                const tempInput = document.createElement("input");
+                tempInput.value = url;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                try {
+                    document.execCommand("copy");
+                    showNotification("Link copied to clipboard!");
+                } catch (err) {
+                    showNotification("Failed to copy link.");
                 }
-            } catch (err) {
-                console.log('Share cancelled or failed', err);
+                document.body.removeChild(tempInput);
             }
         }
 
-        function copyToClipboard(text) {
-            return new Promise((resolve, reject) => {
-                if (navigator.clipboard) {
-                    navigator.clipboard.writeText(text).then(resolve).catch(() => {
-                        fallbackCopy(text, resolve, reject);
-                    });
-                } else {
-                    fallbackCopy(text, resolve, reject);
-                }
-            });
-        }
-
-        function fallbackCopy(text, resolve, reject) {
-            const ta = document.createElement('textarea');
-            ta.value = text;
-            ta.style.position = 'fixed';
-            ta.style.opacity = '0';
-            document.body.appendChild(ta);
-            ta.select();
-            try { document.execCommand('copy'); resolve(); }
-            catch (e) { reject(e); }
-            document.body.removeChild(ta);
-        }
-
-        let toastTimer;
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            document.getElementById('toastText').textContent = message;
-            toast.classList.add('show');
-            clearTimeout(toastTimer);
-            toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
+        /**
+         * Prompts the user to install the app (Instructions)
+         */
+        function promptInstall() {
+            showNotification("To install: tap your browser's Share icon and select 'Add to Home Screen'");
         }
     </script>
-
 </body>
 </html>
