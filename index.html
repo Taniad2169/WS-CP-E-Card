@@ -11,8 +11,13 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        html, body {
-            width: 100%;
+        html {
+            background-color: #084c73;
+        }
+
+        body {
+            margin: 0;
+            padding: 24px 18px;
             min-height: 100vh;
             background-color: #084c73;
             font-family: 'Inter', sans-serif;
@@ -20,66 +25,29 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 24px 18px;
-        }
-
-        /* ===== FLIP CONTAINER — NO background, NO border, NO shadow ===== */
-        .flip-container {
+        /* Simple block — no flex, no 3D, no collapsing */
+        .wrapper {
             width: 100%;
-            max-width: 440px;
-            perspective: 1400px;
+            max-width: 460px;
+            margin: 0 auto;
         }
 
-        .flip-inner {
-            position: relative;
-            width: 100%;
-            transform-style: preserve-3d;
-            transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
-        }
-
-        .flip-inner.flipped {
-            transform: rotateY(180deg);
-        }
-
-        .flip-front,
-        .flip-back {
-            width: 100%;
-            backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
-        }
-
-        .flip-back {
-            position: absolute;
-            inset: 0;
-            transform: rotateY(180deg);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            /* NO background here either — just the page bg shows through */
-        }
-
-        /* ===== HEADER — no panel, floats on the page ===== */
         .header {
             text-align: center;
             margin-bottom: 28px;
+            padding-bottom: 22px;
+            border-bottom: 1px solid rgba(255,255,255,0.25);
         }
 
         .header h1 {
             font-family: 'Playfair Display', serif;
             font-size: 32px;
             font-weight: 700;
-            letter-spacing: 0.5px;
             line-height: 1.15;
             margin-bottom: 10px;
         }
 
-        .header .tagline {
+        .tagline {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -91,15 +59,13 @@
             opacity: 0.85;
         }
 
-        .header .dot {
+        .dot {
             width: 5px;
             height: 5px;
             border-radius: 50%;
             background: #ffffff;
-            display: inline-block;
         }
 
-        /* ===== BUTTONS ===== */
         .buttons {
             display: flex;
             flex-direction: column;
@@ -120,15 +86,15 @@
             font-family: inherit;
             font-weight: 700;
             font-size: 16px;
-            box-shadow: 0 6px 16px rgba(0,0,0,0.35), 0 2px 4px rgba(0,0,0,0.25);
-            transition: transform 0.15s ease, box-shadow 0.15s ease;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.35);
             text-align: left;
             width: 100%;
+            min-height: 64px;
+            transition: transform 0.15s ease;
         }
 
         .btn:active {
-            transform: translateY(1px) scale(0.985);
-            box-shadow: 0 3px 10px rgba(0,0,0,0.4);
+            transform: scale(0.98);
         }
 
         .btn-icon {
@@ -142,17 +108,11 @@
             align-items: center;
             justify-content: center;
             font-size: 18px;
-            transition: all 0.2s ease;
-        }
-
-        .btn:hover .btn-icon {
-            background-color: #084c73;
-            color: #ffffff;
         }
 
         .btn-label {
             flex: 1;
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 700;
             color: #084c73;
         }
@@ -160,69 +120,38 @@
         .btn-arrow {
             font-size: 13px;
             opacity: 0.4;
-            transition: all 0.2s ease;
+            color: #084c73;
         }
 
-        .btn:hover .btn-arrow {
-            opacity: 1;
-            transform: translateX(3px);
+        /* QR section */
+        .qr-section {
+            margin-top: 30px;
+            text-align: center;
         }
 
-        /* ===== BACK (QR) ===== */
-        .back-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 26px;
+        .qr-title {
+            font-size: 11px;
             font-weight: 700;
-            margin-bottom: 8px;
-            text-align: center;
-        }
-
-        .back-sub {
-            font-size: 13px;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
             opacity: 0.85;
-            text-align: center;
-            margin-bottom: 24px;
-            padding: 0 10px;
+            margin-bottom: 14px;
         }
 
         .qr-box {
+            display: inline-block;
             background: #ffffff;
-            padding: 16px;
-            border-radius: 16px;
-            box-shadow: 0 12px 30px rgba(0,0,0,0.4);
-            margin-bottom: 26px;
+            padding: 14px;
+            border-radius: 14px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.35);
         }
 
         .qr-box img {
             display: block;
-            width: 220px;
-            height: 220px;
+            width: 200px;
+            height: 200px;
         }
 
-        .back-btn {
-            background: #ffffff;
-            color: #084c73;
-            border: 2px solid #ffffff;
-            border-radius: 14px;
-            padding: 16px 24px;
-            font-family: inherit;
-            font-weight: 800;
-            font-size: 15px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            box-shadow: 0 6px 16px rgba(0,0,0,0.35);
-            transition: transform 0.15s ease;
-            letter-spacing: 0.03em;
-        }
-
-        .back-btn:active {
-            transform: translateY(1px) scale(0.985);
-        }
-
-        /* ===== TOAST ===== */
         .toast {
             position: fixed;
             left: 50%;
@@ -242,7 +171,6 @@
             pointer-events: none;
             transition: opacity 0.25s ease, transform 0.25s ease;
             z-index: 100;
-            max-width: calc(100% - 40px);
         }
 
         .toast.show {
@@ -252,98 +180,78 @@
 
         .toast i { color: #16a34a; }
 
-        /* ===== RESPONSIVE ===== */
         @media (max-width: 380px) {
+            body { padding: 18px 14px; }
             .header h1 { font-size: 26px; }
-            .btn { padding: 14px 16px; gap: 12px; font-size: 15px; }
+            .btn { padding: 14px 16px; min-height: 58px; font-size: 15px; gap: 12px; }
             .btn-icon { width: 38px; height: 38px; min-width: 38px; font-size: 16px; }
-            .qr-box img { width: 180px; height: 180px; }
+            .qr-box img { width: 170px; height: 170px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="flip-container">
-        <div id="flipInner" class="flip-inner">
+    <div class="wrapper">
 
-            <!-- ============ FRONT ============ -->
-            <div class="flip-front">
-
-                <div class="header">
-                    <h1>Dr. Colbert Pierre</h1>
-                    <div class="tagline">
-                        <span>Music</span>
-                        <span class="dot"></span>
-                        <span>Art</span>
-                        <span class="dot"></span>
-                        <span>Poetry</span>
-                    </div>
-                </div>
-
-                <div class="buttons">
-
-                    <a href="tel:+15308404389" class="btn">
-                        <div class="btn-icon"><i class="fas fa-phone"></i></div>
-                        <span class="btn-label">Tap to Call</span>
-                        <i class="fas fa-chevron-right btn-arrow"></i>
-                    </a>
-
-                    <a href="sms:+15308404389" class="btn">
-                        <div class="btn-icon"><i class="fas fa-comment-sms"></i></div>
-                        <span class="btn-label">Tap to Text</span>
-                        <i class="fas fa-chevron-right btn-arrow"></i>
-                    </a>
-
-                    <a href="mailto:colpierre23@yahoo.fr" class="btn">
-                        <div class="btn-icon"><i class="fas fa-envelope"></i></div>
-                        <span class="btn-label">Tap to Email</span>
-                        <i class="fas fa-chevron-right btn-arrow"></i>
-                    </a>
-
-                    <a href="https://www.instagram.com/stra.t.o/" target="_blank" rel="noopener" class="btn">
-                        <div class="btn-icon"><i class="fab fa-instagram"></i></div>
-                        <span class="btn-label">Tap for Instagram</span>
-                        <i class="fas fa-chevron-right btn-arrow"></i>
-                    </a>
-
-                    <button onclick="downloadVCard()" class="btn">
-                        <div class="btn-icon"><i class="fas fa-address-card"></i></div>
-                        <span class="btn-label">Tap to Save Contact</span>
-                        <i class="fas fa-chevron-right btn-arrow"></i>
-                    </button>
-
-                    <button onclick="shareCard()" class="btn">
-                        <div class="btn-icon"><i class="fas fa-share-nodes"></i></div>
-                        <span class="btn-label">Tap to Share</span>
-                        <i class="fas fa-chevron-right btn-arrow"></i>
-                    </button>
-
-                    <button onclick="toggleFlip()" class="btn">
-                        <div class="btn-icon"><i class="fas fa-qrcode"></i></div>
-                        <span class="btn-label">Tap for QR Code</span>
-                        <i class="fas fa-chevron-right btn-arrow"></i>
-                    </button>
-
-                </div>
+        <div class="header">
+            <h1>Dr. Colbert Pierre</h1>
+            <div class="tagline">
+                <span>Music</span>
+                <span class="dot"></span>
+                <span>Art</span>
+                <span class="dot"></span>
+                <span>Poetry</span>
             </div>
+        </div>
 
-            <!-- ============ BACK (QR) ============ -->
-            <div class="flip-back">
-                <div class="back-title">Scan to Connect</div>
-                <div class="back-sub">Point your camera at the QR code to open the portfolio</div>
+        <div class="buttons">
 
-                <div class="qr-box">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=https://colbertlartiste.taniadomingue.multisiteadmin.com/a/preview"
-                         alt="QR Code">
-                </div>
+            <a href="tel:+15308404389" class="btn">
+                <div class="btn-icon"><i class="fas fa-phone"></i></div>
+                <span class="btn-label">Tap to Call</span>
+                <i class="fas fa-chevron-right btn-arrow"></i>
+            </a>
 
-                <button onclick="toggleFlip()" class="back-btn">
-                    <i class="fas fa-arrow-left"></i>
-                    Back to Card
-                </button>
-            </div>
+            <a href="sms:+15308404389" class="btn">
+                <div class="btn-icon"><i class="fas fa-comment-sms"></i></div>
+                <span class="btn-label">Tap to Text</span>
+                <i class="fas fa-chevron-right btn-arrow"></i>
+            </a>
+
+            <a href="mailto:colpierre23@yahoo.fr" class="btn">
+                <div class="btn-icon"><i class="fas fa-envelope"></i></div>
+                <span class="btn-label">Tap to Email</span>
+                <i class="fas fa-chevron-right btn-arrow"></i>
+            </a>
+
+            <a href="https://www.instagram.com/stra.t.o/" target="_blank" rel="noopener" class="btn">
+                <div class="btn-icon"><i class="fab fa-instagram"></i></div>
+                <span class="btn-label">Tap for Instagram</span>
+                <i class="fas fa-chevron-right btn-arrow"></i>
+            </a>
+
+            <button onclick="downloadVCard()" class="btn">
+                <div class="btn-icon"><i class="fas fa-address-card"></i></div>
+                <span class="btn-label">Tap to Save Contact</span>
+                <i class="fas fa-chevron-right btn-arrow"></i>
+            </button>
+
+            <button onclick="shareCard()" class="btn">
+                <div class="btn-icon"><i class="fas fa-share-nodes"></i></div>
+                <span class="btn-label">Tap to Share</span>
+                <i class="fas fa-chevron-right btn-arrow"></i>
+            </button>
 
         </div>
+
+        <div class="qr-section">
+            <div class="qr-title">Scan to Connect</div>
+            <div class="qr-box">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=https://colbertlartiste.taniadomingue.multisiteadmin.com/a/preview"
+                     alt="QR Code">
+            </div>
+        </div>
+
     </div>
 
     <div id="toast" class="toast">
@@ -353,10 +261,6 @@
 
     <script>
         const SHARE_URL = 'https://colbertlartiste.taniadomingue.multisiteadmin.com/a/preview';
-
-        function toggleFlip() {
-            document.getElementById('flipInner').classList.toggle('flipped');
-        }
 
         function downloadVCard() {
             const vcard = [
