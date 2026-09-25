@@ -30,69 +30,13 @@
     </script>
 
     <style>
-        * { box-sizing: border-box; }
-
-        html, body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden; /* prevent body scroll — card handles its own scroll */
-            font-family: 'Inter', sans-serif;
-            background-color: #0b8ad4;
-        }
-
-        /* Full-bleed card — fills entire viewport on every device */
-        .flip-card {
-            position: fixed;
-            inset: 0;
-            width: 100vw;
-            height: 100vh;
-            height: 100dvh; /* dynamic viewport height — accounts for mobile browser bars */
-            perspective: 1200px;
-        }
-
-        .flip-card-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            transition: transform 0.8s cubic-bezier(0.4, 0.2, 0.2, 1);
-            transform-style: preserve-3d;
-        }
-
-        .flip-card.is-flipped .flip-card-inner {
-            transform: rotateY(180deg);
-        }
-
-        .flip-card-front, .flip-card-back {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            -webkit-backface-visibility: hidden;
+        .perspective-1000 { perspective: 1000px; }
+        .transform-style-3d { transform-style: preserve-3d; }
+        .backface-hidden {
             backface-visibility: hidden;
-            background-color: #0b8ad4;
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-            /* Safe-area padding so content isn't hidden behind notches / home bars */
-            padding-top: env(safe-area-inset-top);
-            padding-bottom: env(safe-area-inset-bottom);
-            padding-left: env(safe-area-inset-left);
-            padding-right: env(safe-area-inset-right);
+            -webkit-backface-visibility: hidden;
         }
-
-        .flip-card-front::-webkit-scrollbar,
-        .flip-card-back::-webkit-scrollbar {
-            display: none;
-        }
-
-        .flip-card-back {
-            transform: rotateY(180deg);
-        }
+        .rotate-y-180 { transform: rotateY(180deg); }
 
         .action-button {
             background-color: #ffffff;
@@ -146,14 +90,15 @@
         }
     </style>
 </head>
-<body>
+<body class="bg-brand-primary text-white min-h-screen flex flex-col items-center justify-center font-sans antialiased">
 
-    <div class="flip-card" id="cardContainer">
-        <div class="flip-card-inner">
+    <main class="w-full max-w-md perspective-1000">
+        <div id="cardInner" class="relative w-full transition-transform duration-700 transform-style-3d min-h-[640px]">
 
-            <!-- ================= FRONT ================= -->
-            <div class="flip-card-front p-5 sm:p-6">
+            <!-- ================= FRONT OF CARD (normal flow — sets the height) ================= -->
+            <div id="cardFront" class="w-full flip-card-front p-5 sm:p-6 flex flex-col justify-between backface-hidden relative overflow-hidden">
 
+                <!-- Header Image -->
                 <div class="w-full flex justify-center mb-4 shrink-0">
                     <div class="w-full max-w-[280px] aspect-square rounded-2xl overflow-hidden border-4 border-white shadow-lg bg-white flex items-center justify-center relative">
                         <img id="profile-picture"
@@ -164,6 +109,7 @@
                     </div>
                 </div>
 
+                <!-- Title & Subtitle -->
                 <div class="text-center text-white mb-6 shrink-0">
                     <h1 class="font-serif text-2xl sm:text-3xl font-bold tracking-wide drop-shadow-md mb-2">
                         Dr. Colbert Pierre
@@ -177,6 +123,7 @@
                     </div>
                 </div>
 
+                <!-- Action Buttons Grid -->
                 <div class="grid grid-cols-2 gap-3 mb-4 shrink-0">
                     <a href="tel:5308404389" class="action-button">
                         <div class="action-icon-wrapper"><i class="fas fa-phone"></i></div>
@@ -200,12 +147,14 @@
                     </button>
                 </div>
 
+                <!-- Flip to QR Button -->
                 <button onclick="toggleFlip()" class="w-full bg-brand-primary text-white font-bold py-4 px-6 rounded-xl flex items-center justify-center gap-3 shadow-md hover:bg-blue-600 transition-colors border border-white/50 shrink-0 mb-5">
                     <i class="fas fa-qrcode text-xl"></i>
                     <span class="tracking-wide">Scan QR Code</span>
                 </button>
 
-                <div class="mt-auto pt-4 border-t border-white/40 flex flex-col items-center gap-3 shrink-0 pb-6">
+                <!-- Install App Section -->
+                <div class="pt-4 border-t border-white/40 flex flex-col items-center gap-3 shrink-0 pb-2">
                     <span class="text-[10px] text-white uppercase tracking-widest font-bold">Install to Device</span>
                     <div class="flex gap-3 w-full">
                         <button onclick="showInstallInstructions('iOS')" class="flex-1 bg-white/20 hover:bg-white/30 text-white py-2.5 rounded-lg text-xs font-bold flex items-center justify-center gap-2 border border-white/30 transition-colors">
@@ -219,8 +168,8 @@
 
             </div>
 
-            <!-- ================= BACK ================= -->
-            <div class="flip-card-back p-6 flex flex-col items-center justify-center">
+            <!-- ================= BACK OF CARD (absolute overlay) ================= -->
+            <div id="cardBack" class="w-full flip-card-back p-6 flex flex-col items-center justify-center absolute inset-0 backface-hidden rotate-y-180 overflow-hidden">
 
                 <div class="text-center text-white mb-8">
                     <h2 class="font-serif text-3xl font-bold mb-3 drop-shadow-md">Scan to Connect</h2>
@@ -240,7 +189,7 @@
 
             </div>
         </div>
-    </div>
+    </main>
 
     <!-- Toast -->
     <div id="toastNotification" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 hidden w-[90%] max-w-sm flex-col bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden">
@@ -258,14 +207,14 @@
     </div>
 
     <script>
-        const cardContainer = document.getElementById('cardContainer');
-        const toastNotification = document.getElementById('toastNotification');
-        const toastTitle = document.getElementById('toastTitle');
-        const toastMessage = document.getElementById('toastMessage');
-        const toastIcon = document.getElementById('toastIcon');
+        const cardInner = document.getElementById("cardInner");
+        const toastNotification = document.getElementById("toastNotification");
+        const toastTitle = document.getElementById("toastTitle");
+        const toastMessage = document.getElementById("toastMessage");
+        const toastIcon = document.getElementById("toastIcon");
 
         function toggleFlip() {
-            cardContainer.classList.toggle('is-flipped');
+            cardInner.classList.toggle("rotate-y-180");
         }
 
         function showToast(title, message, iconHTML, iconBgClass, iconTextClass) {
@@ -279,9 +228,7 @@
 
         function hideToast() {
             toastNotification.classList.remove('toast-visible');
-            setTimeout(() => {
-                toastNotification.classList.add('hidden');
-            }, 300);
+            setTimeout(() => toastNotification.classList.add('hidden'), 300);
         }
 
         async function shareCard() {
@@ -300,14 +247,7 @@
                     textArea.select();
                     document.execCommand('copy');
                     document.body.removeChild(textArea);
-
-                    showToast(
-                        'Link Copied!',
-                        'The website link has been successfully copied to your clipboard. You can now paste it anywhere.',
-                        '<i class="fas fa-check"></i>',
-                        'bg-green-100',
-                        'text-green-600'
-                    );
+                    showToast('Link Copied!', 'The website link has been successfully copied to your clipboard.', '<i class="fas fa-check"></i>', 'bg-green-100', 'text-green-600');
                 }
             } catch (err) {
                 console.log('Share error or cancelled:', err);
@@ -323,10 +263,10 @@
                     'bg-gray-100',
                     'text-gray-800'
                 );
-            } else if (os === 'Android') {
+            } else {
                 showToast(
                     'Install on Android',
-                    'Tap the <strong>Menu</strong> icon <i class="fas fa-ellipsis-v mx-1 border rounded px-1"></i> (three dots) in your browser, then tap <strong>"Add to Home screen"</strong>.',
+                    'Tap the <strong>Menu</strong> icon <i class="fas fa-ellipsis-v mx-1 border rounded px-1"></i> in your browser, then tap <strong>"Add to Home screen"</strong>.',
                     '<i class="fab fa-android"></i>',
                     'bg-blue-50',
                     'text-brand-primary'
