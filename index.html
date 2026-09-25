@@ -9,200 +9,308 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        serif: ['Playfair Display', 'serif'],
-                    },
-                    colors: {
-                        brand: {
-                            light: '#b1d6fa',
-                            primary: '#084c73',
-                            bg: '#084c73',
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-
     <style>
-        .perspective-1000 { perspective: 1000px; }
-        .transform-style-3d { transform-style: preserve-3d; }
-        .backface-hidden {
+        * { box-sizing: border-box; }
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100vh;
+            background-color: #084c73;
+            font-family: 'Inter', sans-serif;
+            color: #ffffff;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 14px;
+        }
+
+        .card-wrapper {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            perspective: 1200px;
+        }
+
+        /* ===== CARD — no min-height ocean, sized by content ===== */
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
+        }
+        .flip-card-inner.is-flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card-face {
+            width: 100%;
+            background-color: #0a5a87;
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 22px;
+            padding: 22px 20px;
+            display: flex;
+            flex-direction: column;
             backface-visibility: hidden;
             -webkit-backface-visibility: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.35);
         }
-        .rotate-y-180 { transform: rotateY(180deg); }
 
+        .card-front {
+            position: relative;
+        }
+
+        .card-back {
+            position: absolute;
+            inset: 0;
+            transform: rotateY(180deg);
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        /* ===== BUTTONS — big, dominant, bold ===== */
         .action-button {
             background-color: #ffffff;
             color: #084c73;
-            border-radius: 1rem;
-            padding: 0.75rem;
+            border-radius: 16px;
+            padding: 22px 14px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 0.5rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            transition: all 0.2s ease-in-out;
+            gap: 10px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4), 0 3px 6px rgba(0,0,0,0.3);
+            border: 2px solid #ffffff;
+            transition: all 0.2s ease;
             cursor: pointer;
-            border: none;
             width: 100%;
             text-decoration: none;
+            font-weight: 800;
         }
-
         .action-button:hover, .action-button:active {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-            color: #063a58;
+            transform: translateY(-3px);
+            box-shadow: 0 14px 28px rgba(0,0,0,0.45), 0 5px 10px rgba(0,0,0,0.3);
         }
 
         .action-icon-wrapper {
-            width: 40px;
-            height: 40px;
+            width: 52px;
+            height: 52px;
             border-radius: 50%;
             background-color: #e6f0f6;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.25rem;
+            font-size: 1.5rem;
+            color: #084c73;
             transition: all 0.2s;
+            border: 1px solid #c8dbe8;
         }
-
         .action-button:hover .action-icon-wrapper {
             background-color: #084c73;
             color: #ffffff;
+            border-color: #084c73;
+        }
+
+        .qr-flip-button {
+            width: 100%;
+            background-color: #ffffff;
+            color: #084c73;
+            font-weight: 800;
+            padding: 20px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            border: 2px solid #ffffff;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4), 0 3px 6px rgba(0,0,0,0.3);
+            transition: all 0.2s ease;
+            margin-bottom: 18px;
+            letter-spacing: 0.05em;
+        }
+        .qr-flip-button:hover, .qr-flip-button:active {
+            transform: translateY(-3px);
+            box-shadow: 0 14px 28px rgba(0,0,0,0.45), 0 5px 10px rgba(0,0,0,0.3);
+        }
+
+        .install-btn {
+            flex: 1;
+            background-color: #ffffff;
+            border: 2px solid #ffffff;
+            color: #084c73;
+            padding: 16px;
+            border-radius: 14px;
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.35), 0 2px 4px rgba(0,0,0,0.2);
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .install-btn:hover, .install-btn:active {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 22px rgba(0,0,0,0.45), 0 3px 8px rgba(0,0,0,0.25);
+        }
+
+        .qr-box {
+            background: #ffffff;
+            padding: 18px;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+        }
+        .qr-box img {
+            width: 240px;
+            height: 240px;
+            object-fit: contain;
+            display: block;
+        }
+
+        .back-btn {
+            width: 100%;
+            max-width: 320px;
+            background: #ffffff;
+            color: #084c73;
+            font-weight: 800;
+            padding: 18px;
+            border-radius: 16px;
+            border: 2px solid #ffffff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            transition: all 0.2s ease;
+        }
+        .back-btn:hover, .back-btn:active {
+            transform: translateY(-3px);
+            box-shadow: 0 14px 28px rgba(0,0,0,0.45);
         }
 
         @keyframes slideUpFade {
             0% { transform: translate(-50%, 20px); opacity: 0; }
             100% { transform: translate(-50%, 0); opacity: 1; }
         }
-
         .toast-visible {
             animation: slideUpFade 0.4s ease forwards;
             display: flex !important;
         }
+
+        @media (max-width: 400px) {
+            .card-face { padding: 18px 16px; border-radius: 18px; }
+            .qr-box img { width: 200px; height: 200px; }
+            .action-icon-wrapper { width: 46px; height: 46px; font-size: 1.3rem; }
+            .action-button { padding: 18px 10px; }
+        }
     </style>
 </head>
-<body class="bg-brand-primary text-white min-h-screen flex flex-col items-center justify-center font-sans antialiased">
+<body>
 
-    <!-- FIX: widened from max-w-md (448px) to max-w-2xl (672px) + padding on small screens -->
-    <main class="w-full max-w-2xl px-3 sm:px-4 perspective-1000">
-        <div id="cardInner" class="relative w-full transition-transform duration-700 transform-style-3d min-h-[640px]">
+    <div class="card-wrapper">
+        <div id="cardInner" class="flip-card-inner">
 
-            <!-- ================= FRONT OF CARD (normal flow — sets the height) ================= -->
-            <div id="cardFront" class="w-full flip-card-front p-5 sm:p-7 flex flex-col justify-between backface-hidden relative overflow-hidden">
+            <!-- ============ FRONT ============ -->
+            <div class="card-face card-front">
 
-                <!-- Header Image -->
-                <div class="w-full flex justify-center mb-4 shrink-0">
-                    <!-- FIX: widened from max-w-[280px] to max-w-[340px] -->
-                    <div class="w-full max-w-[340px] aspect-square rounded-2xl overflow-hidden border-4 border-white shadow-lg bg-white flex items-center justify-center relative">
-                        <img id="profile-picture"
-                             src="colbert-artiste.jpg"
-                             alt="The Colbert L'Artiste — Artisan Brushworks, Est. 2024"
-                             class="w-full h-full object-cover"
-                             onerror="this.onerror=null;this.src='https://placehold.co/600x600/084c73/ffffff?text=Colbert+L%27Artiste';">
-                    </div>
-                </div>
-
-                <!-- Title & Subtitle -->
-                <div class="text-center text-white mb-6 shrink-0">
-                    <h1 class="font-serif text-3xl sm:text-4xl font-bold tracking-wide drop-shadow-md mb-2">
+                <!-- Name block -->
+                <div style="text-align:center; margin-bottom:22px;">
+                    <h1 style="font-family:'Playfair Display',serif; font-size:32px; font-weight:700; margin:0 0 10px; letter-spacing:0.5px; color:#ffffff; line-height:1.15;">
                         Dr. Colbert Pierre
                     </h1>
-                    <div class="flex items-center justify-center space-x-3 text-xs sm:text-sm font-bold tracking-[0.2em] uppercase drop-shadow-sm opacity-90">
+                    <div style="display:flex; align-items:center; justify-content:center; gap:12px; font-size:12px; font-weight:700; letter-spacing:0.25em; text-transform:uppercase; opacity:0.9;">
                         <span>Music</span>
-                        <span class="w-1.5 h-1.5 rounded-full bg-white"></span>
+                        <span style="width:5px; height:5px; border-radius:50%; background:#ffffff;"></span>
                         <span>Art</span>
-                        <span class="w-1.5 h-1.5 rounded-full bg-white"></span>
+                        <span style="width:5px; height:5px; border-radius:50%; background:#ffffff;"></span>
                         <span>Poetry</span>
                     </div>
                 </div>
 
-                <!-- Action Buttons Grid -->
-                <div class="grid grid-cols-2 gap-3 sm:gap-4 mb-4 shrink-0">
-                    <a href="tel:5308404389" class="action-button py-4">
+                <!-- ACTION BUTTONS — dominate the card -->
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:18px;">
+                    <a href="tel:5308404389" class="action-button">
                         <div class="action-icon-wrapper"><i class="fas fa-phone"></i></div>
-                        <span class="text-sm font-bold text-gray-700">Call</span>
+                        <span style="font-size:14px; color:#084c73; letter-spacing:0.03em;">Call</span>
                     </a>
-                    <a href="sms:5308404389" class="action-button py-4">
+                    <a href="sms:5308404389" class="action-button">
                         <div class="action-icon-wrapper"><i class="fas fa-comment-sms"></i></div>
-                        <span class="text-sm font-bold text-gray-700">Text</span>
+                        <span style="font-size:14px; color:#084c73; letter-spacing:0.03em;">Text</span>
                     </a>
-                    <a href="mailto:colpierre23@yahoo.fr" class="action-button py-4">
+                    <a href="mailto:colpierre23@yahoo.fr" class="action-button">
                         <div class="action-icon-wrapper"><i class="fas fa-envelope"></i></div>
-                        <span class="text-sm font-bold text-gray-700">Email</span>
+                        <span style="font-size:14px; color:#084c73; letter-spacing:0.03em;">Email</span>
                     </a>
-                    <a href="https://www.instagram.com/stra.t.o/" target="_blank" rel="noopener" class="action-button py-4">
+                    <a href="https://www.instagram.com/stra.t.o/" target="_blank" rel="noopener" class="action-button">
                         <div class="action-icon-wrapper"><i class="fab fa-instagram"></i></div>
-                        <span class="text-sm font-bold text-gray-700">Instagram</span>
+                        <span style="font-size:14px; color:#084c73; letter-spacing:0.03em;">Instagram</span>
                     </a>
-                    <button onclick="shareCard()" class="action-button col-span-2 flex-row py-4">
-                        <i class="fas fa-share-nodes text-xl mr-2"></i>
-                        <span class="text-base font-bold text-gray-700">Copy &amp; Share Card</span>
+                    <button onclick="shareCard()" class="action-button" style="grid-column: span 2; flex-direction:row; padding:22px;">
+                        <i class="fas fa-share-nodes" style="font-size:20px; margin-right:12px;"></i>
+                        <span style="font-size:15px; color:#084c73; letter-spacing:0.03em;">Copy &amp; Share Card</span>
                     </button>
                 </div>
 
-                <!-- Flip to QR Button -->
-                <button onclick="toggleFlip()" class="w-full bg-white/15 hover:bg-white/25 text-white font-bold py-4 px-6 rounded-xl flex items-center justify-center gap-3 shadow-md transition-colors border border-white/50 shrink-0 mb-5">
-                    <i class="fas fa-qrcode text-xl"></i>
-                    <span class="tracking-wide">Scan QR Code</span>
+                <!-- QR FLIP BUTTON -->
+                <button onclick="toggleFlip()" class="qr-flip-button">
+                    <i class="fas fa-qrcode" style="font-size:20px;"></i>
+                    <span>Scan QR Code</span>
                 </button>
 
-                <!-- Install App Section -->
-                <div class="pt-4 border-t border-white/40 flex flex-col items-center gap-3 shrink-0 pb-2">
-                    <span class="text-[10px] text-white uppercase tracking-widest font-bold">Install to Device</span>
-                    <div class="flex gap-3 w-full">
-                        <button onclick="showInstallInstructions('iOS')" class="flex-1 bg-white/20 hover:bg-white/30 text-white py-3 rounded-lg text-sm font-bold flex items-center justify-center gap-2 border border-white/30 transition-colors">
-                            <i class="fab fa-apple text-sm"></i> iOS
+                <!-- INSTALL SECTION -->
+                <div style="border-top:1px solid rgba(255,255,255,0.3); padding-top:18px; display:flex; flex-direction:column; align-items:center; gap:12px;">
+                    <span style="font-size:10px; text-transform:uppercase; letter-spacing:0.25em; font-weight:800; opacity:0.85;">Install to Device</span>
+                    <div style="display:flex; gap:12px; width:100%;">
+                        <button onclick="showInstallInstructions('iOS')" class="install-btn">
+                            <i class="fab fa-apple"></i> iOS
                         </button>
-                        <button onclick="showInstallInstructions('Android')" class="flex-1 bg-white/20 hover:bg-white/30 text-white py-3 rounded-lg text-sm font-bold flex items-center justify-center gap-2 border border-white/30 transition-colors">
-                            <i class="fab fa-android text-sm"></i> Android
+                        <button onclick="showInstallInstructions('Android')" class="install-btn">
+                            <i class="fab fa-android"></i> Android
                         </button>
                     </div>
                 </div>
-
             </div>
 
-            <!-- ================= BACK OF CARD (absolute overlay) ================= -->
-            <div id="cardBack" class="w-full flip-card-back p-6 flex flex-col items-center justify-center absolute inset-0 backface-hidden rotate-y-180 overflow-hidden">
+            <!-- ============ BACK ============ -->
+            <div class="card-face card-back">
+                <h2 style="font-family:'Playfair Display',serif; font-size:30px; font-weight:700; margin:0 0 12px; color:#ffffff;">Scan to Connect</h2>
+                <p style="font-size:14px; opacity:0.9; margin:0 0 30px; padding:0 20px;">Point your camera at this code to view the full website and portfolio.</p>
 
-                <div class="text-center text-white mb-8">
-                    <h2 class="font-serif text-3xl sm:text-4xl font-bold mb-3 drop-shadow-md">Scan to Connect</h2>
-                    <p class="text-sm sm:text-base font-medium opacity-90 px-4">Point your camera at this code to view the full website and portfolio.</p>
-                </div>
-
-                <div class="bg-white p-5 rounded-3xl shadow-xl border-4 border-white/50 mb-8">
+                <div class="qr-box" style="margin-bottom:32px;">
                     <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://colbertlartiste.taniadomingue.multisiteadmin.com/a/preview"
-                         alt="QR Code"
-                         class="w-64 h-64 object-contain">
+                         alt="QR Code">
                 </div>
 
-                <button onclick="toggleFlip()" class="w-full bg-white text-brand-primary font-bold py-4 px-6 rounded-xl flex items-center justify-center gap-3 shadow-lg hover:bg-gray-50 transition-all max-w-[320px]">
+                <button onclick="toggleFlip()" class="back-btn">
                     <i class="fas fa-arrow-left"></i>
                     <span>Back to Profile</span>
                 </button>
-
             </div>
         </div>
-    </main>
+    </div>
 
-    <!-- Toast -->
-    <div id="toastNotification" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 hidden w-[90%] max-w-sm flex-col bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden">
-        <div class="p-5 flex flex-col items-center text-center relative">
-            <button onclick="hideToast()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-600">
+    <!-- TOAST -->
+    <div id="toastNotification" style="position:fixed; bottom:24px; left:50%; transform:translateX(-50%); z-index:50; display:none; width:90%; max-width:380px; background:#ffffff; border-radius:16px; box-shadow:0 20px 40px rgba(0,0,0,0.4); overflow:hidden;">
+        <div style="padding:20px; display:flex; flex-direction:column; align-items:center; text-align:center; position:relative;">
+            <button onclick="hideToast()" style="position:absolute; top:12px; right:12px; background:none; border:none; color:#999; cursor:pointer; font-size:16px;">
                 <i class="fas fa-times"></i>
             </button>
-            <div id="toastIcon" class="w-12 h-12 rounded-full mb-3 flex items-center justify-center text-2xl"></div>
-            <h3 id="toastTitle" class="text-gray-900 font-bold text-lg mb-2"></h3>
-            <p id="toastMessage" class="text-gray-600 text-sm leading-relaxed mb-4"></p>
-            <button onclick="hideToast()" class="w-full bg-brand-primary text-white font-bold py-2.5 rounded-xl hover:bg-blue-900 transition-colors">
+            <div id="toastIcon" style="width:48px; height:48px; border-radius:50%; margin-bottom:12px; display:flex; align-items:center; justify-content:center; font-size:22px;"></div>
+            <h3 id="toastTitle" style="color:#111; font-weight:700; font-size:18px; margin:0 0 8px;"></h3>
+            <p id="toastMessage" style="color:#666; font-size:14px; line-height:1.5; margin:0 0 16px;"></p>
+            <button onclick="hideToast()" style="width:100%; background:#084c73; color:#ffffff; font-weight:700; padding:10px; border-radius:12px; border:none; cursor:pointer;">
                 Understood
             </button>
         </div>
@@ -216,21 +324,22 @@
         const toastIcon = document.getElementById("toastIcon");
 
         function toggleFlip() {
-            cardInner.classList.toggle("rotate-y-180");
+            cardInner.classList.toggle("is-flipped");
         }
 
         function showToast(title, message, iconHTML, iconBgClass, iconTextClass) {
             toastTitle.textContent = title;
             toastMessage.innerHTML = message;
-            toastIcon.className = `w-14 h-14 rounded-full mb-3 flex items-center justify-center text-2xl ${iconBgClass} ${iconTextClass}`;
             toastIcon.innerHTML = iconHTML;
-            toastNotification.classList.remove('hidden');
+            toastIcon.style.background = iconBgClass.includes('green') ? '#dcfce7' : iconBgClass.includes('gray') ? '#f3f4f6' : '#e6f0f6';
+            toastIcon.style.color = iconTextClass.includes('green') ? '#16a34a' : iconTextClass.includes('gray') ? '#1f2937' : '#084c73';
+            toastNotification.style.display = 'flex';
             toastNotification.classList.add('toast-visible');
         }
 
         function hideToast() {
             toastNotification.classList.remove('toast-visible');
-            setTimeout(() => toastNotification.classList.add('hidden'), 300);
+            setTimeout(() => toastNotification.style.display = 'none', 300);
         }
 
         async function shareCard() {
@@ -249,7 +358,7 @@
                     textArea.select();
                     document.execCommand('copy');
                     document.body.removeChild(textArea);
-                    showToast('Link Copied!', 'The website link has been successfully copied to your clipboard.', '<i class="fas fa-check"></i>', 'bg-green-100', 'text-green-600');
+                    showToast('Link Copied!', 'The website link has been copied to your clipboard.', '<i class="fas fa-check"></i>', 'bg-green-100', 'text-green-600');
                 }
             } catch (err) {
                 console.log('Share error or cancelled:', err);
@@ -260,7 +369,7 @@
             if (os === 'iOS') {
                 showToast(
                     'Install on iPhone / iPad',
-                    'Tap the <strong>Share</strong> icon <i class="fas fa-square-arrow-up mx-1 border rounded px-1"></i> at the bottom of Safari, then scroll down and tap <strong>"Add to Home Screen"</strong>.',
+                    'Tap the <strong>Share</strong> icon in Safari, then scroll down and tap <strong>"Add to Home Screen"</strong>.',
                     '<i class="fab fa-apple"></i>',
                     'bg-gray-100',
                     'text-gray-800'
@@ -268,7 +377,7 @@
             } else {
                 showToast(
                     'Install on Android',
-                    'Tap the <strong>Menu</strong> icon <i class="fas fa-ellipsis-v mx-1 border rounded px-1"></i> in your browser, then tap <strong>"Add to Home screen"</strong>.',
+                    'Tap the <strong>Menu</strong> icon in your browser, then tap <strong>"Add to Home screen"</strong>.',
                     '<i class="fab fa-android"></i>',
                     'bg-blue-50',
                     'text-brand-primary'
