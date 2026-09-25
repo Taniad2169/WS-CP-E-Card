@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Dr. Colbert Pierre - E-Card</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -30,24 +30,26 @@
     </script>
 
     <style>
-        body {
-            background-color: #f3f4f6;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        * { box-sizing: border-box; }
+
+        html, body {
             margin: 0;
-            font-family: 'Inter', sans-serif;
-            /* FIX: removed padding so card reaches the edges on mobile */
             padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden; /* prevent body scroll — card handles its own scroll */
+            font-family: 'Inter', sans-serif;
+            background-color: #0b8ad4;
         }
 
+        /* Full-bleed card — fills entire viewport on every device */
         .flip-card {
-            background-color: transparent;
-            width: 100%;
-            max-width: 400px;
-            height: min(780px, 92vh);
-            perspective: 1000px;
+            position: fixed;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh; /* dynamic viewport height — accounts for mobile browser bars */
+            perspective: 1200px;
         }
 
         .flip-card-inner {
@@ -57,8 +59,6 @@
             text-align: center;
             transition: transform 0.8s cubic-bezier(0.4, 0.2, 0.2, 1);
             transform-style: preserve-3d;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-            border-radius: 1.5rem;
         }
 
         .flip-card.is-flipped .flip-card-inner {
@@ -67,20 +67,22 @@
 
         .flip-card-front, .flip-card-back {
             position: absolute;
-            top: 0;
-            left: 0;
+            inset: 0;
             width: 100%;
             height: 100%;
             -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
-            border-radius: 1.5rem;
-            /* FIX: new background color */
             background-color: #0b8ad4;
             display: flex;
             flex-direction: column;
             overflow-y: auto;
             -ms-overflow-style: none;
             scrollbar-width: none;
+            /* Safe-area padding so content isn't hidden behind notches / home bars */
+            padding-top: env(safe-area-inset-top);
+            padding-bottom: env(safe-area-inset-bottom);
+            padding-left: env(safe-area-inset-left);
+            padding-right: env(safe-area-inset-right);
         }
 
         .flip-card-front::-webkit-scrollbar,
@@ -147,13 +149,11 @@
 <body>
 
     <div class="flip-card" id="cardContainer">
-        <!-- FIX: removed "border border-white/30" wrapper that was creating the outline -->
         <div class="flip-card-inner">
 
-            <!-- ================= FRONT OF CARD ================= -->
+            <!-- ================= FRONT ================= -->
             <div class="flip-card-front p-5 sm:p-6">
 
-                <!-- Header Image -->
                 <div class="w-full flex justify-center mb-4 shrink-0">
                     <div class="w-full max-w-[280px] aspect-square rounded-2xl overflow-hidden border-4 border-white shadow-lg bg-white flex items-center justify-center relative">
                         <img id="profile-picture"
@@ -164,7 +164,6 @@
                     </div>
                 </div>
 
-                <!-- Title & Subtitle -->
                 <div class="text-center text-white mb-6 shrink-0">
                     <h1 class="font-serif text-2xl sm:text-3xl font-bold tracking-wide drop-shadow-md mb-2">
                         Dr. Colbert Pierre
@@ -178,43 +177,35 @@
                     </div>
                 </div>
 
-                <!-- Action Buttons Grid -->
                 <div class="grid grid-cols-2 gap-3 mb-4 shrink-0">
-
                     <a href="tel:5308404389" class="action-button">
                         <div class="action-icon-wrapper"><i class="fas fa-phone"></i></div>
                         <span class="text-xs font-bold text-gray-700">Call</span>
                     </a>
-
                     <a href="sms:5308404389" class="action-button">
                         <div class="action-icon-wrapper"><i class="fas fa-comment-sms"></i></div>
                         <span class="text-xs font-bold text-gray-700">Text</span>
                     </a>
-
                     <a href="mailto:colpierre23@yahoo.fr" class="action-button">
                         <div class="action-icon-wrapper"><i class="fas fa-envelope"></i></div>
                         <span class="text-xs font-bold text-gray-700">Email</span>
                     </a>
-
                     <a href="https://www.instagram.com/stra.t.o/" target="_blank" rel="noopener" class="action-button">
                         <div class="action-icon-wrapper"><i class="fab fa-instagram"></i></div>
                         <span class="text-xs font-bold text-gray-700">Instagram</span>
                     </a>
-
                     <button onclick="shareCard()" class="action-button col-span-2 flex-row py-3">
                         <i class="fas fa-share-nodes text-xl mr-2"></i>
                         <span class="text-sm font-bold text-gray-700">Copy &amp; Share Card</span>
                     </button>
                 </div>
 
-                <!-- Flip to QR Button -->
                 <button onclick="toggleFlip()" class="w-full bg-brand-primary text-white font-bold py-4 px-6 rounded-xl flex items-center justify-center gap-3 shadow-md hover:bg-blue-600 transition-colors border border-white/50 shrink-0 mb-5">
                     <i class="fas fa-qrcode text-xl"></i>
                     <span class="tracking-wide">Scan QR Code</span>
                 </button>
 
-                <!-- Install App Section -->
-                <div class="mt-auto pt-4 border-t border-white/40 flex flex-col items-center gap-3 shrink-0">
+                <div class="mt-auto pt-4 border-t border-white/40 flex flex-col items-center gap-3 shrink-0 pb-6">
                     <span class="text-[10px] text-white uppercase tracking-widest font-bold">Install to Device</span>
                     <div class="flex gap-3 w-full">
                         <button onclick="showInstallInstructions('iOS')" class="flex-1 bg-white/20 hover:bg-white/30 text-white py-2.5 rounded-lg text-xs font-bold flex items-center justify-center gap-2 border border-white/30 transition-colors">
@@ -228,7 +219,7 @@
 
             </div>
 
-            <!-- ================= BACK OF CARD ================= -->
+            <!-- ================= BACK ================= -->
             <div class="flip-card-back p-6 flex flex-col items-center justify-center">
 
                 <div class="text-center text-white mb-8">
@@ -251,7 +242,7 @@
         </div>
     </div>
 
-    <!-- Toast Notification UI -->
+    <!-- Toast -->
     <div id="toastNotification" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 hidden w-[90%] max-w-sm flex-col bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden">
         <div class="p-5 flex flex-col items-center text-center relative">
             <button onclick="hideToast()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-600">
