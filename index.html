@@ -5,26 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dr. Colbert Pierre - E-Card</title>
 
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#ffffff">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="Dr. Colbert">
-    <link rel="apple-touch-icon" sizes="198x198" href="icon-198x198.png">
-    <link rel="icon" type="image/png" sizes="72x72" href="icon-72x72.png">
-
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <script>
         tailwind.config = {
             theme: {
                 extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
                     colors: {
-                        primary: '#0d8bbd',
-                        primaryHover: '#0a6d96',
-                        bgLight: '#66c8f2',
+                        brand: {
+                            light: '#b1d6fa',
+                            primary: '#3d9af5',
+                            bg: '#65c2f7',
+                        }
                     }
                 }
             }
@@ -32,235 +30,315 @@
     </script>
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
-
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #ffffff;
-            margin: 0;
-            padding: 0;
+            background-color: #f3f4f6;
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            padding: 1rem;
         }
 
-        .perspective-1000 {
+        .flip-card {
+            background-color: transparent;
+            width: 100%;
+            max-width: 400px;
+            height: min(780px, 92vh);
             perspective: 1000px;
-            width: 100%;
-            max-width: 430px;
-            margin: 0 auto;
         }
 
-        .transform-style-3d {
-            transform-style: preserve-3d;
+        .flip-card-inner {
             position: relative;
             width: 100%;
-        }
-
-        .backface-hidden {
-            backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
-            width: 100%;
-        }
-
-        #flip-card-inner > .backface-hidden:first-child {
-            position: relative;
-            min-height: 100dvh;
-        }
-
-        #flip-card-inner > .backface-hidden:last-child {
-            position: absolute;
-            inset: 0;
             height: 100%;
+            text-align: center;
+            transition: transform 0.8s cubic-bezier(0.4, 0.2, 0.2, 1);
+            transform-style: preserve-3d;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            border-radius: 1.5rem;
         }
 
-        .rotate-y-180 {
+        .flip-card.is-flipped .flip-card-inner {
             transform: rotateY(180deg);
         }
 
-        .flip-transition {
-            transition: transform 0.8s cubic-bezier(0.4, 0.2, 0.2, 1);
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 1.5rem;
+            background-color: #65c2f7;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
 
-        .qr-container img {
-            margin: 0 auto;
-            border-radius: 0.5rem;
+        .flip-card-front::-webkit-scrollbar,
+        .flip-card-back::-webkit-scrollbar {
+            display: none;
+        }
+
+        .flip-card-back {
+            transform: rotateY(180deg);
+        }
+
+        .action-button {
+            background-color: #ffffff;
+            color: #3d9af5;
+            border-radius: 1rem;
+            padding: 0.75rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+            border: none;
+            width: 100%;
+            text-decoration: none;
+        }
+
+        .action-button:hover, .action-button:active {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+            color: #2a7cd6;
+        }
+
+        .action-icon-wrapper {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #f0f7ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            transition: all 0.2s;
+        }
+
+        .action-button:hover .action-icon-wrapper {
+            background-color: #3d9af5;
+            color: #ffffff;
+        }
+
+        @keyframes slideUpFade {
+            0% { transform: translate(-50%, 20px); opacity: 0; }
+            100% { transform: translate(-50%, 0); opacity: 1; }
+        }
+
+        .toast-visible {
+            animation: slideUpFade 0.4s ease forwards;
+            display: flex !important;
         }
     </style>
 </head>
 <body>
-    <div class="perspective-1000">
-        <div id="flip-card-inner" class="transform-style-3d flip-transition">
 
-            <!-- FRONT -->
-            <div class="backface-hidden bg-white overflow-hidden flex flex-col">
-                <div class="w-full h-48 shrink-0 bg-gray-100">
-                    <img src="https://taniad2169.github.io/WS-CP-E-Card/colbert-header.jpg" alt="Colbert L'Artiste Header" class="w-full h-full object-cover">
-                </div>
+    <div class="flip-card" id="cardContainer">
+        <div class="flip-card-inner border border-white/30">
 
-                <div class="relative flex justify-center -mt-14 shrink-0 z-10">
-                    <div class="w-28 h-28 bg-white rounded-full p-1.5 shadow-lg">
-                        <div class="w-full h-full bg-bgLight text-primary rounded-full flex items-center justify-center text-4xl font-bold border-4 border-primary">
-                            CP
-                        </div>
+            <!-- ================= FRONT OF CARD ================= -->
+            <div class="flip-card-front p-5 sm:p-6">
+
+                <!-- Header Image -->
+                <div class="w-full flex justify-center mb-4 shrink-0">
+                    <div class="w-full max-w-[280px] aspect-square rounded-2xl overflow-hidden border-4 border-white shadow-lg bg-white flex items-center justify-center relative">
+                        <img id="profile-picture"
+                             src="colbert-artiste.jpg"
+                             alt="The Colbert L'Artiste — Artisan Brushworks, Est. 2024"
+                             class="w-full h-full object-cover"
+                             onerror="this.onerror=null;this.src='https://placehold.co/600x600/8b1a1a/ffffff?text=Colbert+L%27Artiste';">
                     </div>
                 </div>
 
-                <div class="text-center px-6 pt-3 pb-8 flex flex-col">
-                    <div>
-                        <h1 class="text-2xl font-bold text-gray-800">Dr. Colbert Pierre</h1>
-                        <p class="text-sm font-semibold tracking-widest uppercase text-primary mt-1 mb-5">Artist | Poet | Music</p>
-
-                        <div class="grid grid-cols-2 gap-3">
-                            <a href="tel:5308404389" class="flex flex-col items-center justify-center p-3 bg-primary text-white rounded-xl hover:bg-primaryHover transition-all transform hover:scale-105 shadow-md border-b-4 border-primaryHover">
-                                <i class="fa-solid fa-phone text-xl mb-1"></i>
-                                <span class="text-xs font-semibold">Call</span>
-                            </a>
-
-                            <a href="sms:5308404389" class="flex flex-col items-center justify-center p-3 bg-primary text-white rounded-xl hover:bg-primaryHover transition-all transform hover:scale-105 shadow-md border-b-4 border-primaryHover">
-                                <i class="fa-solid fa-comment-sms text-xl mb-1"></i>
-                                <span class="text-xs font-semibold">Text Message</span>
-                            </a>
-
-                            <a href="https://www.instagram.com/stra.t.o/" target="_blank" class="col-span-2 flex items-center justify-center gap-2 p-3 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 text-white rounded-xl hover:opacity-90 transition-all transform hover:scale-[1.02] shadow-md border-b-4 border-pink-600">
-                                <i class="fa-brands fa-instagram text-lg"></i>
-                                <span class="text-sm font-bold">Follow on Instagram</span>
-                            </a>
-                        </div>
-
-                        <div class="grid grid-cols-2 gap-3 mt-3">
-                            <button onclick="downloadVCard()" class="flex flex-col items-center justify-center p-3 bg-gray-800 text-white rounded-xl hover:bg-gray-900 transition-all shadow-md transform hover:scale-105 border-b-4 border-gray-950">
-                                <i class="fa-solid fa-address-card text-xl mb-1"></i>
-                                <span class="text-xs font-semibold">Save Contact</span>
-                            </button>
-
-                            <button onclick="installApp()" class="flex flex-col items-center justify-center p-3 bg-gray-800 text-white rounded-xl hover:bg-gray-900 transition-all shadow-md transform hover:scale-105 border-b-4 border-gray-950">
-                                <i class="fa-solid fa-download text-xl mb-1"></i>
-                                <span class="text-xs font-semibold">Install App</span>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="flex gap-3 mt-6 mb-2">
-                        <button onclick="shareCard()" class="flex-1 flex items-center justify-center gap-2 py-3 px-4 bg-bgLight/30 text-primary font-bold text-sm rounded-xl hover:bg-bgLight/60 transition-colors border border-primary/20">
-                            <i class="fa-solid fa-share-nodes"></i>
-                            <span id="share-text">Share Link</span>
-                        </button>
-
-                        <button onclick="flipCard()" class="flex-1 flex items-center justify-center gap-2 py-3 px-4 bg-bgLight/30 text-primary font-bold text-sm rounded-xl hover:bg-bgLight/60 transition-colors border border-primary/20">
-                            <i class="fa-solid fa-qrcode"></i>
-                            <span>View QR</span>
-                        </button>
+                <!-- Title & Subtitle -->
+                <div class="text-center text-white mb-6 shrink-0">
+                    <h1 class="font-serif text-2xl sm:text-3xl font-bold tracking-wide drop-shadow-md mb-2">
+                        Dr. Colbert Pierre
+                    </h1>
+                    <div class="flex items-center justify-center space-x-2 text-[11px] sm:text-xs font-bold tracking-[0.2em] uppercase drop-shadow-sm opacity-90">
+                        <span>Music</span>
+                        <span class="w-1.5 h-1.5 rounded-full bg-white"></span>
+                        <span>Art</span>
+                        <span class="w-1.5 h-1.5 rounded-full bg-white"></span>
+                        <span>Poetry</span>
                     </div>
                 </div>
 
-                <footer class="flex-grow min-h-24 bg-primary text-white flex flex-col items-center justify-center text-center px-5 py-5">
-                    <p class="font-bold tracking-wide">Colbert L’Artiste</p>
-                    <p class="text-xs mt-1 opacity-90">Art • Poetry • Music</p>
-                </footer>
-            </div>
+                <!-- Action Buttons Grid -->
+                <div class="grid grid-cols-2 gap-3 mb-4 shrink-0">
 
-            <!-- BACK -->
-            <div class="backface-hidden rotate-y-180 bg-white overflow-hidden flex flex-col justify-between">
-                <div class="bg-primary h-20 w-full flex items-center justify-center shadow-md shrink-0">
-                    <h2 class="text-white font-bold tracking-wider uppercase text-sm">
-                        <i class="fa-solid fa-globe mr-2"></i> Website Preview QR
-                    </h2>
-                </div>
+                    <a href="tel:5308404389" class="action-button">
+                        <div class="action-icon-wrapper"><i class="fas fa-phone"></i></div>
+                        <span class="text-xs font-bold text-gray-700">Call</span>
+                    </a>
 
-                <div class="flex flex-col items-center justify-center flex-1 px-6">
-                    <p class="text-gray-800 font-bold text-xl mb-1">Colbert L’Artiste</p>
-                    <p class="text-sm text-gray-500 mb-6 text-center">Scan to visit my website preview.</p>
+                    <a href="sms:5308404389" class="action-button">
+                        <div class="action-icon-wrapper"><i class="fas fa-comment-sms"></i></div>
+                        <span class="text-xs font-bold text-gray-700">Text</span>
+                    </a>
 
-                    <div class="p-4 bg-bgLight rounded-2xl shadow-inner border border-primary/30 transform transition-transform hover:scale-105">
-                        <div id="qrcode" class="qr-container bg-white p-3 rounded-xl shadow-sm"></div>
-                    </div>
-                </div>
+                    <a href="mailto:colpierre23@yahoo.fr" class="action-button">
+                        <div class="action-icon-wrapper"><i class="fas fa-envelope"></i></div>
+                        <span class="text-xs font-bold text-gray-700">Email</span>
+                    </a>
 
-                <div class="p-6 shrink-0">
-                    <button onclick="flipCard()" class="w-full flex items-center justify-center gap-2 py-3.5 px-4 bg-primary text-white font-bold text-sm rounded-xl hover:bg-primaryHover transition-all shadow-md border-b-4 border-primaryHover">
-                        <i class="fa-solid fa-arrow-rotate-left"></i>
-                        <span>Flip Back to Card</span>
+                    <a href="https://www.instagram.com/stra.t.o/" target="_blank" rel="noopener" class="action-button">
+                        <div class="action-icon-wrapper"><i class="fab fa-instagram"></i></div>
+                        <span class="text-xs font-bold text-gray-700">Instagram</span>
+                    </a>
+
+                    <button onclick="shareCard()" class="action-button col-span-2 flex-row py-3">
+                        <i class="fas fa-share-nodes text-xl mr-2"></i>
+                        <span class="text-sm font-bold text-gray-700">Copy &amp; Share Card</span>
                     </button>
                 </div>
+
+                <!-- Flip to QR Button -->
+                <button onclick="toggleFlip()" class="w-full bg-brand-primary text-white font-bold py-4 px-6 rounded-xl flex items-center justify-center gap-3 shadow-md hover:bg-blue-600 transition-colors border border-white/50 shrink-0 mb-5">
+                    <i class="fas fa-qrcode text-xl"></i>
+                    <span class="tracking-wide">Scan QR Code</span>
+                </button>
+
+                <!-- Install App Section -->
+                <div class="mt-auto pt-4 border-t border-white/40 flex flex-col items-center gap-3 shrink-0">
+                    <span class="text-[10px] text-white uppercase tracking-widest font-bold">Install to Device</span>
+                    <div class="flex gap-3 w-full">
+                        <button onclick="showInstallInstructions('iOS')" class="flex-1 bg-white/20 hover:bg-white/30 text-white py-2.5 rounded-lg text-xs font-bold flex items-center justify-center gap-2 border border-white/30 transition-colors">
+                            <i class="fab fa-apple text-sm"></i> iOS
+                        </button>
+                        <button onclick="showInstallInstructions('Android')" class="flex-1 bg-white/20 hover:bg-white/30 text-white py-2.5 rounded-lg text-xs font-bold flex items-center justify-center gap-2 border border-white/30 transition-colors">
+                            <i class="fab fa-android text-sm"></i> Android
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ================= BACK OF CARD ================= -->
+            <div class="flip-card-back p-6 flex flex-col items-center justify-center">
+
+                <div class="text-center text-white mb-8">
+                    <h2 class="font-serif text-3xl font-bold mb-3 drop-shadow-md">Scan to Connect</h2>
+                    <p class="text-sm font-medium opacity-90 px-4">Point your camera at this code to view the full website and portfolio.</p>
+                </div>
+
+                <div class="bg-white p-5 rounded-3xl shadow-xl border-4 border-white/50 mb-8">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://colbertlartiste.taniadomingue.multisiteadmin.com/a/preview"
+                         alt="QR Code"
+                         class="w-56 h-56 object-contain">
+                </div>
+
+                <button onclick="toggleFlip()" class="w-full bg-white text-brand-primary font-bold py-4 px-6 rounded-xl flex items-center justify-center gap-3 shadow-lg hover:bg-gray-50 transition-all max-w-[280px]">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Back to Profile</span>
+                </button>
+
             </div>
         </div>
     </div>
 
+    <!-- Toast Notification UI -->
+    <div id="toastNotification" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 hidden w-[90%] max-w-sm flex-col bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden">
+        <div class="p-5 flex flex-col items-center text-center relative">
+            <button onclick="hideToast()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-600">
+                <i class="fas fa-times"></i>
+            </button>
+            <div id="toastIcon" class="w-12 h-12 rounded-full mb-3 flex items-center justify-center text-2xl"></div>
+            <h3 id="toastTitle" class="text-gray-900 font-bold text-lg mb-2"></h3>
+            <p id="toastMessage" class="text-gray-600 text-sm leading-relaxed mb-4"></p>
+            <button onclick="hideToast()" class="w-full bg-brand-primary text-white font-bold py-2.5 rounded-xl hover:bg-blue-600 transition-colors">
+                Understood
+            </button>
+        </div>
+    </div>
+
     <script>
-        let deferredPrompt;
+        const cardContainer = document.getElementById('cardContainer');
+        const toastNotification = document.getElementById('toastNotification');
+        const toastTitle = document.getElementById('toastTitle');
+        const toastMessage = document.getElementById('toastMessage');
+        const toastIcon = document.getElementById('toastIcon');
 
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-        });
+        function toggleFlip() {
+            cardContainer.classList.toggle('is-flipped');
+        }
 
-        function installApp() {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                deferredPrompt.userChoice.then((choiceResult) => {
-                    if (choiceResult.outcome === 'accepted') {
-                        console.log('User accepted the install prompt');
-                    }
-                    deferredPrompt = null;
-                });
-            } else {
-                alert("To install this app on iOS:\n1. Tap the 'Share' icon at the bottom of Safari.\n2. Scroll down and tap 'Add to Home Screen'.\n\nIf you are on Android, check your browser's menu for 'Install App' or 'Add to Home Screen'.");
+        function showToast(title, message, iconHTML, iconBgClass, iconTextClass) {
+            toastTitle.textContent = title;
+            toastMessage.innerHTML = message;
+            toastIcon.className = `w-14 h-14 rounded-full mb-3 flex items-center justify-center text-2xl ${iconBgClass} ${iconTextClass}`;
+            toastIcon.innerHTML = iconHTML;
+            toastNotification.classList.remove('hidden');
+            toastNotification.classList.add('toast-visible');
+        }
+
+        function hideToast() {
+            toastNotification.classList.remove('toast-visible');
+            setTimeout(() => {
+                toastNotification.classList.add('hidden');
+            }, 300);
+        }
+
+        async function shareCard() {
+            const shareUrl = 'https://colbertlartiste.taniadomingue.multisiteadmin.com/a/preview';
+            try {
+                if (navigator.share) {
+                    await navigator.share({
+                        title: 'Dr. Colbert Pierre | Music, Art, Poetry',
+                        text: 'View the portfolio and contact information for Dr. Colbert Pierre.',
+                        url: shareUrl
+                    });
+                } else {
+                    const textArea = document.createElement("textarea");
+                    textArea.value = shareUrl;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textArea);
+
+                    showToast(
+                        'Link Copied!',
+                        'The website link has been successfully copied to your clipboard. You can now paste it anywhere.',
+                        '<i class="fas fa-check"></i>',
+                        'bg-green-100',
+                        'text-green-600'
+                    );
+                }
+            } catch (err) {
+                console.log('Share error or cancelled:', err);
             }
         }
 
-        function downloadVCard() {
-            const vcard = `BEGIN:VCARD
-VERSION:3.0
-N:Pierre;Colbert;;Dr.;
-FN:Dr. Colbert Pierre
-TITLE:Artist | Poet | Music
-TEL;TYPE=CELL,VOICE:5308404389
-EMAIL;TYPE=PREF,INTERNET:colpierre23@yahoo.fr
-URL:https://www.instagram.com/stra.t.o/
-END:VCARD`;
-
-            const blob = new Blob([vcard], { type: 'text/vcard;charset=utf-8;' });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.setAttribute('download', 'Dr_Colbert_Pierre.vcf');
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+        function showInstallInstructions(os) {
+            if (os === 'iOS') {
+                showToast(
+                    'Install on iPhone / iPad',
+                    'Tap the <strong>Share</strong> icon <i class="fas fa-square-arrow-up mx-1 border rounded px-1"></i> at the bottom of Safari, then scroll down and tap <strong>"Add to Home Screen"</strong>.',
+                    '<i class="fab fa-apple"></i>',
+                    'bg-gray-100',
+                    'text-gray-800'
+                );
+            } else if (os === 'Android') {
+                showToast(
+                    'Install on Android',
+                    'Tap the <strong>Menu</strong> icon <i class="fas fa-ellipsis-v mx-1 border rounded px-1"></i> (three dots) in your browser, then tap <strong>"Add to Home screen"</strong>.',
+                    '<i class="fab fa-android"></i>',
+                    'bg-blue-50',
+                    'text-brand-primary'
+                );
+            }
         }
-
-        function flipCard() {
-            document.getElementById('flip-card-inner').classList.toggle('rotate-y-180');
-        }
-
-        function shareCard() {
-            const tempInput = document.createElement("input");
-            tempInput.value = window.location.href;
-            document.body.appendChild(tempInput);
-            tempInput.select();
-            document.execCommand("copy");
-            document.body.removeChild(tempInput);
-
-            const shareText = document.getElementById('share-text');
-            const originalText = shareText.innerText;
-            shareText.innerText = 'Copied!';
-            setTimeout(() => {
-                shareText.innerText = originalText;
-            }, 2000);
-        }
-
-        window.onload = function() {
-            const qrContainer = document.getElementById("qrcode");
-            new QRCode(qrContainer, {
-                text: "https://colbertlartiste.taniadomingue.multisiteadmin.com/a/preview",
-                width: 170,
-                height: 170,
-                colorDark: "#0d8bbd",
-                colorLight: "#ffffff",
-                correctLevel: QRCode.CorrectLevel.H
-            });
-        };
     </script>
 </body>
 </html>
