@@ -124,6 +124,31 @@
             align-self: center;
         }
 
+        .tagline-install-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background-color: var(--light-btn);
+            color: var(--text-dark);
+            border: 1.5px solid var(--dark-btn);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            cursor: pointer;
+        }
+
+        .tagline-install-btn:active {
+            transform: scale(0.97);
+        }
+
+        .tagline-install-btn i {
+            font-size: 12px;
+        }
+
         /* Buttons - fixed size, never stretched by a flex parent */
         .btn {
             display: flex;
@@ -246,7 +271,7 @@
             color: #555;
         }
 
-        #qrcode {
+        #qrcode, #qrcodePhone {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -264,7 +289,12 @@
                 <div id="frontView" class="flip-face flip-front">
                     <div>
                         <h1>Dr. Colbert Pierre</h1>
-                        <div class="tagline">Artiste | Poet | Music</div>
+                        <div style="display:flex; align-items:center; justify-content:center; gap:8px; flex-wrap:wrap;">
+                            <div class="tagline">Artiste | Poet | Music</div>
+                            <button id="installBtn" onclick="installApp()" class="tagline-install-btn" style="display:none;">
+                                <i class="fas fa-download"></i> Install
+                            </button>
+                        </div>
                     </div>
 
                     <a href="tel:+15308404389" class="btn btn-dark">
@@ -277,6 +307,10 @@
 
                     <a href="https://www.instagram.com/stra.t.o/" target="_blank" class="btn btn-dark">
                         <i class="fab fa-instagram"></i> Instagram
+                    </a>
+
+                    <a href="https://colbertlartiste.taniadomingue.multisiteadmin.com/a/preview" target="_blank" class="btn btn-light">
+                        <i class="fas fa-globe"></i> Click Here to View My Website
                     </a>
 
                     <div class="info-box">
@@ -304,9 +338,15 @@
                 <!-- BACK FACE -->
                 <div id="backView" class="flip-face flip-back">
                     <div class="qr-section">
-                        <div class="qr-title">Scan to Connect</div>
+                        <div class="qr-title">Scan for Instagram</div>
                         <div class="qr-subtitle">Point your camera here</div>
                         <div id="qrcode"></div>
+                    </div>
+
+                    <div class="qr-section">
+                        <div class="qr-title">Scan for Phone Number</div>
+                        <div class="qr-subtitle">Point your camera here</div>
+                        <div id="qrcodePhone"></div>
                     </div>
 
                     <button onclick="showFront()" class="btn btn-dark" style="margin-top:12px;">
@@ -326,18 +366,69 @@
             });
         }
 
-        // --- Generate the QR Code once, up front ---
+        // --- Install App (PWA) ---
+        // Chrome/Edge/Android fire 'beforeinstallprompt' when the site
+        // qualifies as installable; we stash that event and only reveal
+        // the button once it's actually usable. iOS Safari never fires
+        // this event, so there the button just stays hidden (iOS installs
+        // via Share > Add to Home Screen instead).
+        let deferredInstallPrompt = null;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredInstallPrompt = e;
+            const btn = document.getElementById('installBtn');
+            if (btn) {
+                btn.style.display = 'inline-flex';
+                sizeFlipContainer();
+            }
+        });
+
+        async function installApp() {
+            if (!deferredInstallPrompt) return;
+            deferredInstallPrompt.prompt();
+            await deferredInstallPrompt.userChoice;
+            deferredInstallPrompt = null;
+            const btn = document.getElementById('installBtn');
+            if (btn) {
+                btn.style.display = 'none';
+                sizeFlipContainer();
+            }
+        }
+
+        window.addEventListener('appinstalled', () => {
+            deferredInstallPrompt = null;
+            const btn = document.getElementById('installBtn');
+            if (btn) {
+                btn.style.display = 'none';
+                sizeFlipContainer();
+            }
+        });
+
+        // --- Generate the QR Codes once, up front ---
         let qrGenerated = false;
         function generateQR() {
             if (qrGenerated) return;
+
+            // Instagram QR (was the website preview link before)
             new QRCode(document.getElementById("qrcode"), {
-                text: "https://colbertlartiste.taniadomingue.multisiteadmin.com/a/preview",
+                text: "https://www.instagram.com/stra.t.o/",
                 width: 180,
                 height: 180,
                 colorDark: "#1A2B3C",
                 colorLight: "#ffffff",
                 correctLevel: QRCode.CorrectLevel.H
             });
+
+            // Phone number QR - scanning opens the dialer with his number
+            new QRCode(document.getElementById("qrcodePhone"), {
+                text: "tel:+15308404389",
+                width: 180,
+                height: 180,
+                colorDark: "#1A2B3C",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+
             qrGenerated = true;
         }
         window.addEventListener('load', generateQR);
@@ -355,9 +446,13 @@
         }
         window.addEventListener('load', sizeFlipContainer);
         window.addEventListener('resize', sizeFlipContainer);
+        // The back face grew a second QR block, so re-measure once both
+        // QR codes have actually rendered into it, not just on page load.
+        window.addEventListener('load', () => setTimeout(sizeFlipContainer, 50));
 
         function showBack() {
             document.getElementById('flipInner').classList.add('is-flipped');
+            sizeFlipContainer();
         }
         function showFront() {
             document.getElementById('flipInner').classList.remove('is-flipped');
